@@ -1,0 +1,65 @@
+---
+- name: Set amd64 architecture
+  ansible.builtin.set_fact:
+    docker_arch: amd64
+  when: ansible_architecture == "x86_64"
+
+- name: Set arm64 architecture
+  ansible.builtin.set_fact:
+    docker_arch: arm64
+  when: ansible_architecture == "aarch64"
+
+- name: Install Docker dependencies
+  ansible.builtin.apt:
+    name: "{{ docker_dependencies }}"
+    state: present
+
+- name: Add Docker GPG key
+  ansible.builtin.apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add Docker repository
+  ansible.builtin.apt_repository:
+    repo: deb [arch={{ docker_arch }}] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+    state: present
+
+- name: Update apt and install docker
+  block:
+    - name: Attempt installation
+      ansible.builtin.apt:
+        update_cache: true
+        name: "{{ docker_packages }}"
+        state: present
+  rescue:
+    - name: Fix the dumb Ubuntu Jammy error
+      ansible.builtin.replace:
+        path: /etc/systemd/system/multi-user.target.wants/docker.service
+        regexp: "fd://"
+        replace: "unix://"
+      when: ansible_distribution == 'Ubuntu' and ansible_distribution_version is version('22.04', '>=')
+
+- name: Ensure Docker group exists
+  ansible.builtin.group:
+    name: docker
+    state: present
+
+- name: Add user to Docker group
+  ansible.builtin.user:
+    name: "{{ username }}"
+    groups: docker
+    append: true
+
+- name: Enable Docker service
+  ansible.builtin.service:
+    name: docker
+    enabled: true
+    state: started
+
+- name: Create Docker directory
+  ansible.builtin.file:
+    path: "{{ docker_dir }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0755

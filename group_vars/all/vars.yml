@@ -1,0 +1,44 @@
+---
+username: vagrant
+
+docker_dir: /home/{{ username }}/docker
+
+ip_address: 192.168.60.4
+
+puid: 1000
+
+pgid: 1000
+
+wg_password: wg_password
+
+codeserver_password: codeserver_password
+
+packages:
+  - unzip
+  - wget
+  - curl
+  - git
+  - ranger
+  - htop
+  - speedtest-cli
+  - build-essential
+  - neovim
+  - nano
+  - python3
+  - python3-pip
+
+docker_dependencies:
+  - apt-transport-https
+  - ca-certificates
+  - gnupg2
+  - curl
+  - software-properties-common
+  - python3-pip
+  - virtualenv
+  - python3-setuptools
+  - docker-compose
+
+docker_packages:
+  - docker-ce
+  - docker-compose
+  - cgroupfs-mount
