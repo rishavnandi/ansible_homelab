@@ -1,0 +1,24 @@
+---
+- name: Create filebrowser.db file
+  ansible.builtin.file:
+    path: "{{ docker_dir }}/filebrowser/filebrowser.db"
+    state: touch
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0755
+
+- name: Create file browser container
+  community.docker.docker_container:
+    name: filebrowser
+    image: filebrowser/filebrowser
+    user: "{{ puid }}:{{ pgid }}"
+    pull: true
+    state: started
+    ports:
+      - "8081:80"
+    volumes:
+      - "/home/{{ username }}/:/srv"
+      - "{{ docker_dir }}/filebrowser/:/data"
+    restart_policy: unless-stopped
+    security_opts:
+      - no-new-privileges:true

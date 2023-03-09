@@ -1,0 +1,93 @@
+---
+- name: Create prometheus directory
+  ansible.builtin.file:
+    path: "etc/prometheus/"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0755
+
+- name: Create prometheus.yml file
+  ansible.builtin.copy:
+    content: |
+      global:
+        scrape_interval:     15s
+      scrape_configs:
+        - job_name: 'prometheus'
+          scrape_interval: 5s
+          static_configs:
+            - targets: ['localhost:9090']
+        - job_name: 'node_exporter'
+          static_configs:
+            - targets: ['node_exporter:9100']
+        - job_name: 'cadvisor'
+          static_configs:
+            - targets: ['cadvisor:8080']
+    dest: /etc/prometheus/prometheus.yml
+
+- name: Create volumes for monitoring containers
+  community.docker.docker_volume:
+    name: "{{ item }}"
+    state: present
+    driver: local
+  loop:
+    - prometheus-data
+    - grafana-data
+
+- name: Create prometheus container
+  community.docker.docker_container:
+    name: prometheus
+    image: prom/prometheus:latest
+    pull: true
+    state: started
+    volumes:
+      - /etc/prometheus/:/etc/prometheus/
+      - prometheus-data:/prometheus
+    restart_policy: unless-stopped
+    command: "--config.file=/etc/prometheus/prometheus.yml"
+    networks:
+      - name: homelab
+
+- name: Create node exporter container
+  community.docker.docker_container:
+    name: node_exporter
+    image: quay.io/prometheus/node-exporter:latest
+    pull: true
+    state: started
+    pid: host
+    restart_policy: unless-stopped
+    command: '--path.rootfs=/host'
+    volumes:
+      - /:/host:ro,rslave
+    networks:
+      - name: homelab
+
+- name: Create cadvisor container
+  community.docker.docker_container:
+    name: cadvisor
+    image: raymondmm/cadvisor
+    pull: true
+    state: started
+    restart_policy: unless-stopped
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    devices:
+      - /dev/kmsg
+    networks:
+      - name: homelab
+
+- name: Create grafana container
+  community.docker.docker_container:
+    name: grafana
+    image: grafana/grafana-oss:latest
+    pull: true
+    state: started
+    restart_policy: unless-stopped
+    volumes:
+      - grafana-data:/var/lib/grafana
+    networks:
+      - name: homelab

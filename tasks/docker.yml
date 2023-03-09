@@ -56,10 +56,8 @@
     enabled: true
     state: started
 
-- name: Create Docker directory
-  ansible.builtin.file:
-    path: "{{ docker_dir }}"
-    state: directory
-    owner: "{{ username }}"
-    group: "{{ username }}"
-    mode: 0755
+- name: Create custom docker network
+  community.docker.docker_network:
+    name: homelab
+    state: present
+    driver: bridge

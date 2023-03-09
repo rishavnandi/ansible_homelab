@@ -1,0 +1,18 @@
+---
+- name: Create unmanic container
+  ansible.builtin.docker_container:
+    name: unmanic
+    image: josh5/unmanic:latest
+    pull: true
+    state: started
+    restart_policy: unless-stopped
+    env:
+      PUID: "{{ puid }}"
+      PGID: "{{ pgid }}"
+    volumes:
+      - "{{ docker_dir }}/unmanic/config:/config"
+      - "{{ data_dir }}/media/movies:/library/movies"
+      - "{{ data_dir }}/media/tv:/library/tv"
+      - /tmp:/tmp/unmanic
+    networks:
+      - name: homelab

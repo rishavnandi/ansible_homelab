@@ -2,12 +2,15 @@
 username: vagrant
 
 docker_dir: /home/{{ username }}/docker
+data_dir: /home/{{ username }}/data
 
 ip_address: 192.168.60.4
 
 puid: 1000
 
 pgid: 1000
+
+timezone: Asia/Kolkata
 
 wg_password: wg_password
 

@@ -1,0 +1,14 @@
+---
+- name: Create guacamole container
+  ansible.builtin.docker_container:
+    name: guacamole
+    image: oznu/guacamole:armhf
+    pull: true
+    state: started
+    restart_policy: unless-stopped
+    ports:
+      - "9000:8080"
+    volumes:
+      - "{{ docker_dir }}/guacamole/config:/config"
+    networks:
+      - name: homelab

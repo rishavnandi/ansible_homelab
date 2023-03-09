@@ -1,0 +1,18 @@
+---
+- name: Create sonarr container
+  ansible.builtin.docker_container:
+    name: sonarr
+    image: lscr.io/linuxserver/sonarr
+    pull: true
+    state: started
+    restart_policy: unless-stopped
+    env:
+      PUID: "{{ puid }}"
+      PGID: "{{ pgid }}"
+      TZ: "{{ timezone }}"
+      DOCKER_MODS: ghcr.io/gilbn/theme.park:sonarr
+    volumes:
+      - "{{ docker_dir }}/sonarr/config:/config"
+      - "{{ data_dir }}:/data"
+    networks:
+      - name: homelab

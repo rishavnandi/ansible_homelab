@@ -6,15 +6,59 @@
     upgrade: safe
     autoremove: true
 
-- name: Check if reboot required
-  stat:
-    path: /var/run/reboot-required
-  register: reboot_required_file
+- name: Create Docker directory
+  ansible.builtin.file:
+    path: "{{ docker_dir }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0755
 
-- name: Reboot if required
-  reboot:
-    msg: Rebooting due to a kernel update
-  when: reboot_required_file.stat.exists
+- name: Create data directory
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0755
+  loop:
+    - "{{ data_dir }}"
+    - "{{ data_dir }}/torrents"
+    - "{{ data_dir }}/media"
+    - "{{ data_dir }}/media/movies"
+    - "{{ data_dir }}/media/tv"
+    - "{{ data_dir }}/torrents/movies"
+    - "{{ data_dir }}/torrents/tv"
+
+- name: Create app directories
+  ansible.builtin.file:
+    path: "{{ docker_dir }}/{{ item }}"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0755
+  loop:
+    - filebrowser
+    - heimdall
+    - jackett
+    - jellyfin
+    - monitoring
+    - nginx
+    - qbittorrent
+    - radarr
+    - sonarr
+    - unmanic
+    - uptime_kuma
+    - wg
+    - prowlarr
+    - guacamole
+    - portainer
+    - vaultwarden
+    - code_server
+    - duplicati
+    - jellyseerr
+    - watchtower
+    - syncthing
 
 - name: Suppress login messages
   file:
@@ -30,3 +74,13 @@
   ansible.builtin.apt:
     name: "{{ packages }}"
     state: present
+
+- name: Check if reboot required
+  stat:
+    path: /var/run/reboot-required
+  register: reboot_required_file
+
+- name: Reboot if required
+  reboot:
+    msg: Rebooting due to a kernel update
+  when: reboot_required_file.stat.exists

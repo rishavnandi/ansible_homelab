@@ -1,0 +1,14 @@
+---
+- name: Create uptime kuma container
+  ansible.builtin.docker_container:
+    name: uptime-kuma
+    image: louislam/uptime-kuma:1
+    pull: true
+    state: started
+    restart_policy: unless-stopped
+    volumes:
+      - "{{ docker_dir }}/uptime-kuma/data:/app/data"
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - name: homelab
