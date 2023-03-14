@@ -18,3 +18,7 @@ git clone https://github.com/rishavnandi/ansible_homelab.git
 ```bash
 ansible-playbook run.yml -K
 ```
+
+## Removing unwanted apps
+
+If you don't want to run some of the apps, you can easily remove them from the `run.yml` file since all the containers are stored as tasks in the tasks folder and are included in the `run.yml` file.
