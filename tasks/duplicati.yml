@@ -1,0 +1,20 @@
+---
+- name: Create duplicati container
+  community.docker.docker_container:
+    name: duplicati
+    image: lscr.io/linuxserver/duplicati:latest
+    pull: true
+    state: started
+    restart_policy: unless-stopped
+    ports:
+      - "8200:8200"
+    volumes:
+      - "{{ docker_dir }}/duplicati/config:/config"
+      - "{{ docker_dir }}/duplicati/backups:/backups"
+      - "{{ docker_dir }}/:/source"
+    networks:
+      - name: homelab
+    env:
+      PUID: 0
+      PGID: 0
+      TZ: "{{ timezone }}"

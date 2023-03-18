@@ -1,7 +1,7 @@
 ---
 username: vagrant
 
-docker_dir: /home/{{ username }}/docker
+docker_dir: /home/{{ username }}/docker_apps
 data_dir: /home/{{ username }}/data
 
 ip_address: 192.168.60.4
@@ -45,3 +45,25 @@ docker_packages:
   - docker-ce
   - docker-compose
   - cgroupfs-mount
+
+docker_apps:
+  - code_server
+  - duplicati
+  - filebrowser
+  - guacamole
+  - heimdall
+  - jellyfin
+  - jellyseer
+  - monitoring
+  - nginx
+  - portainer
+  - prowlarr
+  - qbittorrent
+  - radarr
+  - sonarr
+  - syncthing
+  - unmanic
+  - uptime_kuma
+  - vaultwarden
+  - watchtower
+  - wireguard

@@ -1,7 +1,7 @@
 ---
 - name: Update packages
   ansible.builtin.apt:
-    update_cache: yes
+    update_cache: true
     cache_valid_time: 3600
     upgrade: safe
     autoremove: true
@@ -37,28 +37,8 @@
     owner: "{{ username }}"
     group: "{{ username }}"
     mode: 0755
-  loop:
-    - filebrowser
-    - heimdall
-    - jackett
-    - jellyfin
-    - monitoring
-    - nginx
-    - qbittorrent
-    - radarr
-    - sonarr
-    - unmanic
-    - uptime_kuma
-    - wg
-    - prowlarr
-    - guacamole
-    - portainer
-    - vaultwarden
-    - code_server
-    - duplicati
-    - jellyseerr
-    - watchtower
-    - syncthing
+  loop: 
+    - "{{ docker_apps }}"
 
 - name: Suppress login messages
   file:

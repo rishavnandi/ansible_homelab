@@ -1,0 +1,18 @@
+---
+- name: Create vaultwarden volume
+  ansible.builtin.docker_volume:
+    name: vw-data
+    state: present
+    driver: local
+
+- name: Create vaultwarden container
+  ansible.builtin.docker_container:
+    name: vaultwarden
+    image: vaultwarden/server:latest
+    pull: true
+    state: started
+    restart_policy: unless-stopped
+    volumes:
+      - vw-data:/data
+    networks:
+      - name: homelab

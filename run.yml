@@ -1,1 +1,18 @@
 ---
+- name: Setup the homeserver
+  hosts: all
+  become: true
+
+- name: Update server and install essential packages
+  ansible.builtin.import_tasks: tasks/essential.yml
+
+- name: Install docker
+  ansible.builtin.import_tasks: tasks/docker.yml
+
+- name: Deploy docker apps
+  ansible.builtin.import_tasks: "tasks/{{ item }}.yml"
+  loop:
+    - "{{ docker_apps }}"
+
+- name: Modify ownership of data and docker_apps directories
+  ansible.builtin.import_tasks: tasks/add_ownership.yml

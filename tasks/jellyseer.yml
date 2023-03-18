@@ -1,0 +1,15 @@
+---
+- name: Create jellyseerr container
+  community.docker.docker_container:
+    name: jellyseerr
+    image: fallenbagel/jellyseerr:latest
+    pull: true
+    state: started
+    restart_policy: unless-stopped
+    volumes:
+      - "{{ docker_dir }}/jellyseerr/config:/config"
+    networks:
+      - name: homelab
+    env:
+      LOG_LEVEL: debug
+      TZ: "{{ timezone }}"

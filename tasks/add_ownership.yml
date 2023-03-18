@@ -1,0 +1,10 @@
+- name: Add required permissions to data and docker_apps directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: yes
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0775
+  loop:
+    - "{{ data_dir }}"
+    - "{{ docker_apps }}"
