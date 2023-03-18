@@ -1,6 +1,6 @@
 ---
 - name: Create heimdall container
-  ansible.builtin.docker_container:
+  community.docker.docker_container:
     name: heimdall
     image: lscr.io/linuxserver/heimdall
     pull: true

@@ -2,20 +2,22 @@
 - name: Get latest release of vuetorrent
   ansible.builtin.uri:
     url: https://api.github.com/repos/WDaan/VueTorrent/releases/latest
-    method: GET
-    return_content: yes
-    headers:
-      Accept: application/vnd.github.v3+json
-    register: latest_release
-  
-- name: Download and extract vuetorrent
+    return_content: true
+  register: latest_release
+
+- name: Download vuetorrent
   ansible.builtin.get_url:
-    url: "{{ latest_release.json.assets[0].browser_download_url }}"
+    url: "{{ latest_release.json.zipball_url }}"
     dest: "{{ docker_dir }}/qbittorrent/vuetorrent.zip"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0755"
+
+- name: Unzip vuetorrent
   ansible.builtin.unarchive:
     src: "{{ docker_dir }}/qbittorrent/vuetorrent.zip"
     dest: "{{ docker_dir }}/qbittorrent"
-    remote_src: yes
+    remote_src: true
     creates: "{{ docker_dir }}/qbittorrent/vuetorrent"
 
 - name: Create qbittorrent container

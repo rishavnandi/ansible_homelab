@@ -1,6 +1,6 @@
 ---
 - name: Create unmanic container
-  ansible.builtin.docker_container:
+  community.docker.docker_container:
     name: unmanic
     image: josh5/unmanic:latest
     pull: true

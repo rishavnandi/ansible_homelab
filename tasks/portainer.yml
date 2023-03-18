@@ -1,6 +1,6 @@
 ---
 - name: Create portainer container
-  ansible.builtin.docker_container:
+  community.docker.docker_container:
     name: portainer
     image: portainer/portainer-ce
     pull: true
@@ -12,7 +12,7 @@
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - "{{ docker_dir }}/portainer/data:/data"
-    security_opt:
+    security_opts:
       - no-new-privileges:true
     networks:
       - name: homelab

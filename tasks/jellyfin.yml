@@ -1,6 +1,6 @@
 ---
 - name: Create jellyfin container
-  ansible.builtin.docker_container:
+  community.docker.docker_container:
     name: jellyfin
     image: lscr.io/linuxserver/jellyfin
     pull: true

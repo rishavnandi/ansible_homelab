@@ -1,12 +1,12 @@
 ---
 - name: Create vaultwarden volume
-  ansible.builtin.docker_volume:
+  community.docker.docker_volume:
     name: vw-data
     state: present
     driver: local
 
 - name: Create vaultwarden container
-  ansible.builtin.docker_container:
+  community.docker.docker_container:
     name: vaultwarden
     image: vaultwarden/server:latest
     pull: true

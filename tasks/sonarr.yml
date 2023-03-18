@@ -1,6 +1,6 @@
 ---
 - name: Create sonarr container
-  ansible.builtin.docker_container:
+  community.docker.docker_container:
     name: sonarr
     image: lscr.io/linuxserver/sonarr
     pull: true

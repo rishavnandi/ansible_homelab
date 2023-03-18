@@ -1,6 +1,6 @@
 ---
 - name: Create radarr container
-  ansible.builtin.docker_container:
+  community.docker.docker_container:
     name: radarr
     image: lscr.io/linuxserver/radarr
     pull: true

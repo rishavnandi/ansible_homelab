@@ -1,6 +1,6 @@
 ---
 - name: Create guacamole container
-  ansible.builtin.docker_container:
+  community.docker.docker_container:
     name: guacamole
     image: oznu/guacamole:armhf
     pull: true

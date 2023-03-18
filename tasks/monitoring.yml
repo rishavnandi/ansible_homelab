@@ -5,7 +5,7 @@
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: 0755
+    mode: "0755"
 
 - name: Create prometheus.yml file
   ansible.builtin.copy:
@@ -24,6 +24,9 @@
           static_configs:
             - targets: ['cadvisor:8080']
     dest: /etc/prometheus/prometheus.yml
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0755"
 
 - name: Create volumes for monitoring containers
   community.docker.docker_volume:
@@ -54,7 +57,7 @@
     image: quay.io/prometheus/node-exporter:latest
     pull: true
     state: started
-    pid: host
+    pid_mode: host
     restart_policy: unless-stopped
     command: '--path.rootfs=/host'
     volumes:

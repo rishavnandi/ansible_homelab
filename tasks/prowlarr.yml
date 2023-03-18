@@ -1,6 +1,6 @@
 ---
 - name: Create prowlarr container
-  ansible.builtin.docker_container:
+  community.docker.docker_container:
     name: prowlarr
     image: lscr.io/linuxserver/prowlarr
     pull: true

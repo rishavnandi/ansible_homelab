@@ -12,7 +12,7 @@
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: 0755
+    mode: "0755"
 
 - name: Create data directory
   ansible.builtin.file:
@@ -20,7 +20,7 @@
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: 0755
+    mode: "0755"
   loop:
     - "{{ data_dir }}"
     - "{{ data_dir }}/torrents"
@@ -36,14 +36,14 @@
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: 0755
-  loop: 
+    mode: "0755"
+  loop:
     - "{{ docker_apps }}"
 
 - name: Suppress login messages
-  file:
+  ansible.builtin.file:
     name: /home/{{ username }}/.hushlogin
-    mode: 0644
+    mode: "0644"
     state: touch
     owner: "{{ username }}"
     group: "{{ username }}"
@@ -56,11 +56,11 @@
     state: present
 
 - name: Check if reboot required
-  stat:
+  ansible.builtin.stat:
     path: /var/run/reboot-required
   register: reboot_required_file
 
 - name: Reboot if required
-  reboot:
+  ansible.builtin.reboot:
     msg: Rebooting due to a kernel update
   when: reboot_required_file.stat.exists

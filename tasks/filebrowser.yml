@@ -5,7 +5,7 @@
     state: touch
     owner: "{{ username }}"
     group: "{{ username }}"
-    mode: 0755
+    mode: "0755"
 
 - name: Create file browser container
   community.docker.docker_container:
