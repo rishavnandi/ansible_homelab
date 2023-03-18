@@ -5,15 +5,15 @@
 
   tasks:
     - name: Update server and install essential packages
-      ansible.builtin.import_tasks: tasks/essential.yml
+      ansible.builtin.include_tasks: tasks/essential.yml
 
     - name: Install docker
-      ansible.builtin.import_tasks: tasks/docker.yml
+      ansible.builtin.include_tasks: tasks/docker.yml
 
     - name: Deploy docker apps
-      ansible.builtin.import_tasks: "tasks/{{ item }}.yml"
+      ansible.builtin.include_tasks: "tasks/{{ item }}.yml"
       loop:
         - "{{ docker_apps }}"
 
     - name: Modify ownership of data and docker_apps directories
-      ansible.builtin.import_tasks: tasks/add_ownership.yml
+      ansible.builtin.include_tasks: tasks/add_ownership.yml
