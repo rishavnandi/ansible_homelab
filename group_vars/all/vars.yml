@@ -1,14 +1,14 @@
 ---
-username: vagrant
+username: ubuntu
 
 docker_dir: /home/{{ username }}/docker_apps
 data_dir: /home/{{ username }}/data
 
-ip_address: 192.168.60.4
+ip_address: 54.227.157.235
 
-puid: 1000
+puid: "1000"
 
-pgid: 1000
+pgid: "1000"
 
 timezone: Asia/Kolkata
 

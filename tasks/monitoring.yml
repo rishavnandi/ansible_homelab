@@ -1,7 +1,7 @@
 ---
 - name: Create prometheus directory
   ansible.builtin.file:
-    path: "etc/prometheus/"
+    path: "/etc/prometheus/"
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"

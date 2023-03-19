@@ -32,13 +32,32 @@
 
 - name: Create app directories
   ansible.builtin.file:
-    path: "{{ docker_dir }}/{{ item }}"
+    path: "{{ item }}"
     state: directory
     owner: "{{ username }}"
     group: "{{ username }}"
     mode: "0755"
   loop:
-    - "{{ docker_apps }}"
+    - "{{ docker_dir }}/code_server"
+    - "{{ docker_dir }}/duplicati"
+    - "{{ docker_dir }}/filebrowser"
+    - "{{ docker_dir }}/guacamole"
+    - "{{ docker_dir }}/heimdall"
+    - "{{ docker_dir }}/jellyfin"
+    - "{{ docker_dir }}/jellyseer"
+    - "{{ docker_dir }}/monitoring"
+    - "{{ docker_dir }}/nginx"
+    - "{{ docker_dir }}/portainer"
+    - "{{ docker_dir }}/prowlarr"
+    - "{{ docker_dir }}/qbittorrent"
+    - "{{ docker_dir }}/radarr"
+    - "{{ docker_dir }}/sonarr"
+    - "{{ docker_dir }}/syncthing"
+    - "{{ docker_dir }}/unmanic"
+    - "{{ docker_dir }}/uptime_kuma"
+    - "{{ docker_dir }}/vaultwarden"
+    - "{{ docker_dir }}/watchtower"
+    - "{{ docker_dir }}/wireguard"
 
 - name: Suppress login messages
   ansible.builtin.file:

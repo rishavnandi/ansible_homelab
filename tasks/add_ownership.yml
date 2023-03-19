@@ -1,3 +1,4 @@
+---
 - name: Add required permissions to data and docker_apps directories
   ansible.builtin.file:
     path: "{{ item }}"
