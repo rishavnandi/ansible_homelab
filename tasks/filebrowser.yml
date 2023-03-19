@@ -6,6 +6,8 @@
     owner: "{{ username }}"
     group: "{{ username }}"
     mode: "0755"
+    access_time: preserve
+    modification_time: preserve
 
 - name: Create file browser container
   community.docker.docker_container:

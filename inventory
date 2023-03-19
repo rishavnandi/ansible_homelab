@@ -1,6 +1,6 @@
 [homeserver]
-54.227.157.235
+<ip_address>
 
 [homeserver:vars]
-ansible_user = ubuntu
-ansible_ssh_private_key_file = ./ansible_user.pem
+ansible_user = <username>
+ansible_ssh_private_key_file = <path_to_private_key>

@@ -1,7 +1,7 @@
 ---
 - name: Create wg container
   community.docker.docker_container:
-    name: wg
+    name: wireguard
     image: weejewel/wg-easy
     pull: true
     sysctls:

@@ -1,7 +1,7 @@
 ---
 - name: Create uptime kuma container
   community.docker.docker_container:
-    name: uptime-kuma
+    name: uptime_kuma
     image: louislam/uptime-kuma:1
     pull: true
     state: started

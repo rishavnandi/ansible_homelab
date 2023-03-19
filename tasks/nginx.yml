@@ -1,7 +1,7 @@
 ---
 - name: Create nginx proxy manager container
   community.docker.docker_container:
-    name: nginx proxy manager
+    name: nginx_proxy_manager
     image: jc21/nginx-proxy-manager:latest
     pull: true
     state: started

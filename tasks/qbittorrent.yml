@@ -20,6 +20,23 @@
     remote_src: true
     creates: "{{ docker_dir }}/qbittorrent/vuetorrent"
 
+
+- name: Rename extracted folder if it starts with WDaan
+  ansible.builtin.find:
+    paths: "{{ docker_dir }}/qbittorrent/"
+    patterns: "WDaan*"
+    file_type: directory
+  register: extracted_folder
+
+- name: Copy extracted folder to vuetorrent
+  ansible.builtin.copy:
+    src: "{{ extracted_folder.files[0].path }}"
+    dest: "{{ docker_dir }}/qbittorrent/vuetorrent"
+    remote_src: true
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0755"
+
 - name: Create qbittorrent container
   community.docker.docker_container:
     name: qbittorrent
@@ -31,7 +48,7 @@
       PUID: "{{ puid }}"
       PGID: "{{ pgid }}"
       TZ: "{{ timezone }}"
-      WEBUI_PORT: 8080
+      WEBUI_PORT: "8080"
     volumes:
       - "{{ docker_dir }}/qbittorrent/config:/config"
       - "{{ data_dir }}/torrents:/data/torrents"

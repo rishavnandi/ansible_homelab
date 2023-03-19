@@ -1,5 +1,7 @@
 # Private ssh keys
 *.pem
+linode_ansible
+linode_ansible.pub
 
 # Local .terraform directories
 **/.terraform/*
