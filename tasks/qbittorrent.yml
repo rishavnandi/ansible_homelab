@@ -1,37 +1,16 @@
 ---
 - name: Get latest release of vuetorrent
-  ansible.builtin.uri:
-    url: https://api.github.com/repos/WDaan/VueTorrent/releases/latest
-    return_content: true
+  community.general.github_release:
+    user: "WDaan"
+    repo: "VueTorrent"
+    action: latest_release
   register: latest_release
-
-- name: Download vuetorrent
-  ansible.builtin.get_url:
-    url: "{{ latest_release.json.zipball_url }}"
-    dest: "{{ docker_dir }}/qbittorrent/vuetorrent.zip"
-    owner: "{{ username }}"
-    group: "{{ username }}"
-    mode: "0755"
 
 - name: Unzip vuetorrent
   ansible.builtin.unarchive:
-    src: "{{ docker_dir }}/qbittorrent/vuetorrent.zip"
+    src: "https://github.com/WDaan/VueTorrent/releases/download/{{ latest_release.tag }}/vuetorrent.zip"
     dest: "{{ docker_dir }}/qbittorrent"
-    remote_src: true
     creates: "{{ docker_dir }}/qbittorrent/vuetorrent"
-
-
-- name: Rename extracted folder if it starts with WDaan
-  ansible.builtin.find:
-    paths: "{{ docker_dir }}/qbittorrent/"
-    patterns: "WDaan*"
-    file_type: directory
-  register: extracted_folder
-
-- name: Copy extracted folder to vuetorrent
-  ansible.builtin.copy:
-    src: "{{ extracted_folder.files[0].path }}"
-    dest: "{{ docker_dir }}/qbittorrent/vuetorrent"
     remote_src: true
     owner: "{{ username }}"
     group: "{{ username }}"

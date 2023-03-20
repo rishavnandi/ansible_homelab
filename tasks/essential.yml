@@ -74,6 +74,11 @@
     name: "{{ packages }}"
     state: present
 
+- name: Install pip packages
+  ansible.builtin.pip:
+    name: "{{ pip_packages }}"
+    state: present
+
 - name: Check if reboot required
   ansible.builtin.stat:
     path: /var/run/reboot-required

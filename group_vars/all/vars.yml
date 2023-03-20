@@ -30,6 +30,10 @@ packages:
   - python3
   - python3-pip
 
+pip_packages:
+  - ansible
+  - github3.py
+
 docker_dependencies:
   - apt-transport-https
   - ca-certificates
