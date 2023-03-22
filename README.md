@@ -18,9 +18,43 @@ git clone https://github.com/rishavnandi/ansible_homelab.git
 - Run the playbook
 
 ```bash
-ansible-playbook run.yml -K
+ansible-playbook main.yml
+```
+
+## Docker install issue on Ubuntu 22.04
+
+If you are running Ubuntu 22.04, you might run into an issue where the Docker install fails. This is because of a dumb issue with Ubuntu 22.04 "Jammy" itself. The playbooks are designed to work around this issue, you just need to run the playbook twice. The first time it will fail, but it will have fixed the issue for the second run. I am working on a fix for this, but for now, this is the workaround.
+
+```yaml
+  rescue:
+    - name: Fix the dumb Ubuntu Jammy error
+      ansible.builtin.replace:
+        path: /etc/systemd/system/multi-user.target.wants/docker.service
+        regexp: "fd://"
+        replace: "unix://"
+      when: ansible_distribution == 'Ubuntu' and ansible_distribution_version is version('22.04', '>=')
 ```
 
 ## Removing unwanted apps
 
-If you don't want to run some of the apps, you can easily remove them from the `run.yml` file since all the containers are stored as tasks in the tasks folder and are included in the `run.yml` file.
+If you don't want to run some of the apps, you can easily remove them from the `main.yml` file since all the containers are stored as tasks in the tasks folder and are included in the `main.yml` file.
+
+## Info about the apps
+
+If you want to learn more about any of the apps, you can check out the [awesome selfhosted repo](https://github.com/awesome-selfhosted/awesome-selfhosted).
+
+## Goals
+
+- [x] Add support for Ubuntu 22.04
+- [ ] Add SSH hardening
+- [ ] Find a permanent fix for the Docker install issue on Ubuntu 22.04
+- [ ] Use Ansible to automate some more stuff so there is no need to enter the IP address and PUID/PGID manually
+- [ ] Add support for Fedora
+- [ ] Add more apps
+
+## Credits
+
+- [Jeff Geerling](https://www.jeffgeerling.com/) for all the awesome Ansible content
+- [linuxserver.io](https://linuxserver.io/) for the Docker containers
+- [Ansible docs](https://docs.ansible.com/ansible/latest/) for the Ansible documentation
+- [Wolfgang's infra repo](https://github.com/notthebee/infra) for the Docker install fix for Ubuntu 22.04
