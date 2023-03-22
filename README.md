@@ -16,7 +16,7 @@ git clone https://github.com/rishavnandi/ansible_homelab.git
 - Run the playbook
 
 ```bash
-ansible-playbook run.yml -K
+ansible-playbook run.yml
 ```
 
 ## Removing unwanted apps
