@@ -43,6 +43,11 @@ If you don't want to run some of the apps, you can easily remove them from the `
 
 If you want to learn more about any of the apps, you can check out the [awesome selfhosted repo](https://github.com/awesome-selfhosted/awesome-selfhosted).
 
+## Included Terraform script
+
+I have included a Terraform script that I use to quickly spin up an AWS instance to run the playbook on. You can use this script to spin up an instance, or you can use it as a reference to create your own Terraform script.
+You can find more info about using Terraform with AWS here: [https://learn.hashicorp.com/tutorials/terraform/aws-build](https://learn.hashicorp.com/tutorials/terraform/aws-build)
+
 ## Goals
 
 - [x] Add support for Ubuntu 22.04
