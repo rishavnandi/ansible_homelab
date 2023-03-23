@@ -1,3 +1,4 @@
+---
 - name: Set amd64 architecture
   ansible.builtin.set_fact:
     docker_arch: amd64
@@ -27,7 +28,7 @@
 
 - name: Add Docker repository
   ansible.builtin.apt_repository:
-    repo: deb [arch={{ docker_arch }}] https://download.docker.com/linux/{{ ansible_distribution|lower }} {{ ansible_distribution_release }} stable
+    repo: deb [arch={{ docker_arch }}] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable
     state: present
 
 - name: Update apt and install docker

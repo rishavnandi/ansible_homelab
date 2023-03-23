@@ -6,6 +6,16 @@
     upgrade: safe
     autoremove: true
 
+- name: Check if reboot required
+  ansible.builtin.stat:
+    path: /var/run/reboot-required
+  register: reboot_required_file
+
+- name: Reboot if required
+  ansible.builtin.reboot:
+    msg: Rebooting due to a kernel update
+  when: reboot_required_file.stat.exists
+
 - name: Create Docker directory
   ansible.builtin.file:
     path: "{{ docker_dir }}"
@@ -78,13 +88,3 @@
   ansible.builtin.pip:
     name: "{{ pip_packages }}"
     state: present
-
-- name: Check if reboot required
-  ansible.builtin.stat:
-    path: /var/run/reboot-required
-  register: reboot_required_file
-
-- name: Reboot if required
-  ansible.builtin.reboot:
-    msg: Rebooting due to a kernel update
-  when: reboot_required_file.stat.exists

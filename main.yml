@@ -36,3 +36,7 @@
 
     - name: Modify ownership of data and docker_apps directories
       ansible.builtin.include_tasks: tasks/add_ownership.yml
+
+    - name: Reboot the server after all tasks have been completed
+      ansible.builtin.reboot:
+        msg: "Rebooting the server to complete the setup"
