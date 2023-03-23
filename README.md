@@ -1,6 +1,6 @@
 # Ansible homelab
 
-Ansible playbooks to quickly setup a homelab. These playbooks are designed to be run on a fresh install of Ubuntu 20.04/22.04.
+Ansible playbooks to quickly setup a homelab. These playbooks are designed to be run on a fresh install of Ubuntu 20.04/22.04 and Debian 11.
 The playbook will update the system, install Docker, and then deploy the Docker containers.
 
 ## Usage
