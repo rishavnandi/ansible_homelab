@@ -1,20 +1,56 @@
 ---
-- name: Update packages
+- name: Update apt packages
   ansible.builtin.apt:
     update_cache: true
     cache_valid_time: 3600
-    upgrade: safe
-    autoremove: true
+    upgrade: full
+  when: ansible_distribution in ["Ubuntu", "Debian"]
 
-- name: Check if reboot required
+- name: Update dnf packages
+  ansible.builtin.dnf:
+    name: "*"
+    state: latest
+    update_only: true
+  when: ansible_distribution in ["Fedora", "CentOS", "Red Hat Enterprise Linux"]
+
+- name: Install dnf-utils if on Fedora
+  ansible.builtin.package:
+    name: dnf-utils
+    state: present
+  when: ansible_distribution in ["Fedora", "CentOS", "Red Hat Enterprise Linux"]
+
+- name: Check if a reboot is required on Fedora
+  ansible.builtin.command: needs-restarting -r
+  register: reboot_required
+  ignore_errors: true
+  changed_when: reboot_required.rc != 0
+  when: ansible_distribution in ["Fedora", "CentOS", "Red Hat Enterprise Linux"]
+
+- name: Reboot if required on Fedora
+  ansible.builtin.reboot:
+    msg: Rebooting due to a kernel update
+  when: (ansible_distribution in ["Fedora", "CentOS", "Red Hat Enterprise Linux"]) and reboot_required.rc != 0
+
+- name: Check if reboot required on Ubuntu
   ansible.builtin.stat:
     path: /var/run/reboot-required
   register: reboot_required_file
+  when: ansible_distribution in ["Ubuntu", "Debian"]
 
-- name: Reboot if required
+- name: Reboot if required on Ubuntu
   ansible.builtin.reboot:
     msg: Rebooting due to a kernel update
-  when: reboot_required_file.stat.exists
+  when: (ansible_distribution in ["Ubuntu", "Debian"]) and reboot_required_file.stat.exists
+
+- name: Install packages
+  ansible.builtin.package:
+    name: "{{ packages }}"
+    state: present
+
+- name: Install pip packages
+  ansible.builtin.pip:
+    name: "{{ pip_packages }}"
+    state: present
 
 - name: Create Docker directory
   ansible.builtin.file:
@@ -78,13 +114,3 @@
     group: "{{ username }}"
     modification_time: preserve
     access_time: preserve
-
-- name: Install packages
-  ansible.builtin.apt:
-    name: "{{ packages }}"
-    state: present
-
-- name: Install pip packages
-  ansible.builtin.pip:
-    name: "{{ pip_packages }}"
-    state: present

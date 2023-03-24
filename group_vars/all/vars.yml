@@ -1,30 +1,28 @@
 ---
-username: <username>
+username: root
 
 docker_dir: /home/{{ username }}/docker_apps
 data_dir: /home/{{ username }}/data
 
-ip_address: <ip_address>
+ip_address: 172.105.34.67
 
-puid: "<puid>"
+puid: "0"
 
-pgid: "<pgid>"
+pgid: "0"
 
-timezone: <timezone>
+timezone: Asia/Kolkata
 
-wg_password: <wg_password>
+wg_password: wg_password
 
-codeserver_password: <codeserver_password>
+codeserver_password: codeserver_password
 
 packages:
   - unzip
   - wget
   - curl
   - git
-  - ranger
   - htop
   - speedtest-cli
-  - build-essential
   - neovim
   - nano
   - python3
@@ -33,41 +31,16 @@ packages:
 pip_packages:
   - ansible
   - github3.py
+  - docker
 
 docker_dependencies:
-  - apt-transport-https
   - ca-certificates
-  - gnupg2
+  - gnupg
   - curl
-  - software-properties-common
-  - python3-pip
-  - virtualenv
-  - python3-setuptools
-  - docker-compose
 
 docker_packages:
   - docker-ce
-  - docker-compose
-  - cgroupfs-mount
-
-docker_apps:
-  - code_server
-  - duplicati
-  - filebrowser
-  - guacamole
-  - heimdall
-  - jellyfin
-  - jellyseer
-  - monitoring
-  - nginx
-  - portainer
-  - prowlarr
-  - qbittorrent
-  - radarr
-  - sonarr
-  - syncthing
-  - unmanic
-  - uptime_kuma
-  - vaultwarden
-  - watchtower
-  - wireguard
+  - docker-ce-cli
+  - containerd.io
+  - docker-buildx-plugin
+  - docker-compose-plugin

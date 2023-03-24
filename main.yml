@@ -3,6 +3,11 @@
   hosts: all
   become: true
 
+  handlers:
+    - name: Restart if docker apps deployed
+      ansible.builtin.reboot:
+      when: docker_apps_deployed is changed
+
   tasks:
     - name: Update server and install essential packages
       ansible.builtin.include_tasks: tasks/essential.yml
@@ -13,30 +18,27 @@
     - name: Deploy docker apps
       ansible.builtin.include_tasks: "tasks/{{ item }}.yml"
       loop:
-        - code_server
+        # - code_server
         - duplicati
         - filebrowser
         - guacamole
-        - heimdall
-        - jellyfin
-        - jellyseer
-        - monitoring
+        # - heimdall
+        # - jellyfin
+        # - jellyseer
+        # - monitoring
         - nginx
         - portainer
-        - prowlarr
+        # - prowlarr
         - qbittorrent
-        - radarr
-        - sonarr
-        - syncthing
-        - unmanic
-        - uptime_kuma
-        - vaultwarden
-        - watchtower
+        # - radarr
+        # - sonarr
+        # - syncthing
+        # - unmanic
+        # - uptime_kuma
+        # - vaultwarden
+        # - watchtower
         - wireguard
+      register: docker_apps_deployed
 
     - name: Modify ownership of data and docker_apps directories
       ansible.builtin.include_tasks: tasks/add_ownership.yml
-
-    - name: Reboot the server after all tasks have been completed
-      ansible.builtin.reboot:
-        msg: "Rebooting the server to complete the setup"
