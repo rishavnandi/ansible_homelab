@@ -1,20 +1,20 @@
 ---
-username: root
+username: <username>
 
 docker_dir: /home/{{ username }}/docker_apps
 data_dir: /home/{{ username }}/data
 
-ip_address: 172.105.34.67
+ip_address: <ip_address>
 
-puid: "0"
+puid: "<puid>"
 
-pgid: "0"
+pgid: "<pgid>"
 
-timezone: Asia/Kolkata
+timezone: <timezone>
 
-wg_password: wg_password
+wg_password: <wg_password>
 
-codeserver_password: codeserver_password
+codeserver_password: <codeserver_password>
 
 packages:
   - unzip

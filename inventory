@@ -1,6 +1,6 @@
 [homeserver]
-172.105.34.67
+<ip_address>
 
 [homeserver:vars]
-ansible_user = root
-ansible_ssh_pass = ansible0412
+ansible_user = <username>
+ansible_ssh_private_key_file = <path_to_private_key>
