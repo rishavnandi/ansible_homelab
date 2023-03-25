@@ -17,7 +17,7 @@
       ansible.builtin.include_tasks: tasks/docker.yml
 
     - name: Deploy docker apps
-      ansible.builtin.include_tasks: "tasks/root.yml"
+      ansible.builtin.include_tasks: "tasks/{{ item }}.yml"
       loop:
         - code_server
         - duplicati

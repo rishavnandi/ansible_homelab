@@ -24,8 +24,8 @@
     state: started
     restart_policy: unless-stopped
     env:
-      PUID: "{{ {{ username }}_uid }}"
-      PGID: "{{ {{ username }}_gid }}"
+      PUID: "{{ username }}_uid"
+      PGID: "{{ username }}_gid"
       TZ: "{{ timezone }}"
       WEBUI_PORT: "8080"
     volumes:

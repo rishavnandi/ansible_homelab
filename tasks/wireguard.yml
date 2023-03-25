@@ -13,7 +13,7 @@
     state: started
     env:
       "PASSWORD": "{{ wg_password }}"
-      "WG_HOST": "{{ ansible_default_ipv4.address }}}}"
+      "WG_HOST": "{{ ansible_default_ipv4.address }}"
     ports:
       - "51820:51820/udp"
       - "51821:51821/tcp"
