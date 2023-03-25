@@ -1,6 +1,9 @@
 #!/bin/bash
 
-# This script is used to initialize the variables used by the playbook.
+# This script is used to clone the repository, initialize the variables, and run the playbook
+
+# Clone the repository
+git clone https://github.com/rishavnandi/ansible_homelab.git && cd ansible_homelab
 
 # Read user input
 read -p "Enter username: " username
@@ -28,3 +31,6 @@ else
   read -p "Enter path to private key: " private_key_path
   sed -i "s#<path/to/private/key>#$private_key_path#g" inventory
 fi
+
+# Run the playbook
+ansible-playbook main.yml
