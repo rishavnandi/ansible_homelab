@@ -13,7 +13,7 @@
   community.docker.docker_container:
     name: filebrowser
     image: filebrowser/filebrowser
-    user: "{{ puid }}:{{ pgid }}"
+    user: "{{ {{ username }}_uid }}:{{ {{ username }}_gid }}"
     pull: true
     state: started
     ports:

@@ -9,41 +9,47 @@
     docker_arch: arm64
   when: ansible_architecture == "aarch64"
 
+- name: Set RedHat distribution
+  ansible.builtin.set_fact:
+    rh_distribution: "{{ 'rhel' if ansible_distribution == 'RedHat' else ansible_distribution | lower }}"
+
 - name: Install Docker dependencies
-  ansible.builtin.apt:
+  ansible.builtin.package:
     name: "{{ docker_dependencies }}"
     state: present
 
-- name: Add Docker GPG key
+- name: Add Docker GPG key for apt
   ansible.builtin.apt_key:
-    url: https://download.docker.com/linux/debian/gpg
+    url: https://download.docker.com/linux/{{ ansible_distribution | lower }}
     state: present
-  when: ansible_distribution == 'Debian'
+  when: ansible_distribution in ["Ubuntu", "Debian"]
 
-- name: Add Docker GPG key
-  ansible.builtin.apt_key:
-    url: https://download.docker.com/linux/ubuntu/gpg
-    state: present
-  when: ansible_distribution == 'Ubuntu'
-
-- name: Add Docker repository
+- name: Add Docker repository for apt
   ansible.builtin.apt_repository:
     repo: deb [arch={{ docker_arch }}] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable
     state: present
+  when: ansible_distribution in ["Ubuntu", "Debian"]
 
-- name: Update apt and install docker
-  block:
-    - name: Attempt installation
-      ansible.builtin.apt:
-        name: "{{ docker_packages }}"
-        state: present
-  rescue:
-    - name: Fix the dumb Ubuntu Jammy error
-      ansible.builtin.replace:
-        path: /etc/systemd/system/multi-user.target.wants/docker.service
-        regexp: "fd://"
-        replace: "unix://"
-      when: ansible_distribution == 'Ubuntu' and ansible_distribution_version is version('22.04', '>=')
+- name: Add signing key for yum
+  ansible.builtin.rpm_key:
+    key: "https://download.docker.com/linux/{{ rh_distribution }}/gpg"
+    state: present
+  when: ansible_distribution in ["Fedora", "CentOS", "RedHat"]
+
+- name: Add repository into repo.d list for yum
+  ansible.builtin.yum_repository:
+    name: docker
+    description: docker repository
+    baseurl: "https://download.docker.com/linux/{{ rh_distribution }}/$releasever/$basearch/stable"
+    enabled: true
+    gpgcheck: true
+    gpgkey: "https://download.docker.com/linux/{{ rh_distribution }}/gpg"
+  when: ansible_distribution in ["Fedora", "CentOS", "RedHat"]
+
+- name: Install docker
+  ansible.builtin.package:
+    name: "{{ docker_packages }}"
+    state: present
 
 - name: Ensure Docker group exists
   ansible.builtin.group:

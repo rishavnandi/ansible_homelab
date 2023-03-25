@@ -12,8 +12,8 @@
     networks:
       - name: homelab
     env:
-      PUID: "{{ puid }}"
-      PGID: "{{ pgid }}"
+      PUID: "{{ {{ username }}_uid }}"
+      PGID: "{{ {{ username }}_gid }}"
       PASSWORD: "{{ codeserver_password }}"
       SUDO_PASSWORD: "{{ codeserver_password }}"
       TZ: "{{ timezone }}"
