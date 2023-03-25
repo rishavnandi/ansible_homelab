@@ -66,10 +66,10 @@ You can find more info about using Terraform with AWS here: [https://learn.hashi
 
 - [x] Add support for Ubuntu 22.04
 - [x] Add support for Debian 11
+- [x] Add support for RedHat based distros (Fedora, CentOS)
+- [x] Find a permanent fix for the Docker install issue on Ubuntu 22.04
+- [x] Use Ansible to automate some more stuff so there is no need to enter the IP address and PUID/PGID manually
 - [ ] Add SSH hardening
-- [ ] Find a permanent fix for the Docker install issue on Ubuntu 22.04
-- [ ] Use Ansible to automate some more stuff so there is no need to enter the IP address and PUID/PGID manually
-- [ ] Add support for Fedora
 - [ ] Add more apps
 
 ## Credits
