@@ -3,6 +3,12 @@
   hosts: all
   become: true
 
+  handlers:
+    - name: Reboot server
+      ansible.builtin.reboot:
+        msg: "Rebooting server because a docker container was deployed"
+      when: docker_apps_deployed is changed
+
   tasks:
     - name: Update server and install essential packages
       ansible.builtin.include_tasks: tasks/essential.yml
@@ -11,7 +17,7 @@
       ansible.builtin.include_tasks: tasks/docker.yml
 
     - name: Deploy docker apps
-      ansible.builtin.include_tasks: "tasks/{{ item }}.yml"
+      ansible.builtin.include_tasks: "tasks/root.yml"
       loop:
         - code_server
         - duplicati
@@ -37,7 +43,3 @@
 
     - name: Modify ownership of data and docker_apps directories
       ansible.builtin.include_tasks: tasks/add_ownership.yml
-
-    - name: Reboot server
-      ansible.builtin.reboot:
-      when: docker_apps_deployed.changed

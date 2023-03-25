@@ -7,8 +7,8 @@
     state: started
     restart_policy: unless-stopped
     env:
-      PUID: "{{ puid }}"
-      PGID: "{{ pgid }}"
+      PUID: "{{ {{ username }}_uid }}"
+      PGID: "{{ {{ username }}_gid }}"
     volumes:
       - "{{ docker_dir }}/unmanic/config:/config"
       - "{{ data_dir }}/media/movies:/library/movies"

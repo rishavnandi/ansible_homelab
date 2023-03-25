@@ -4,27 +4,17 @@ username: <username>
 docker_dir: /home/{{ username }}/docker_apps
 data_dir: /home/{{ username }}/data
 
-ip_address: <ip_address>
-
-puid: "<puid>"
-
-pgid: "<pgid>"
-
 timezone: <timezone>
 
-wg_password: <wg_password>
+wg_password: <wg_pass>
 
-codeserver_password: <codeserver_password>
+codeserver_password: <code_pass>
 
 packages:
   - unzip
   - wget
   - curl
   - git
-  - htop
-  - speedtest-cli
-  - neovim
-  - nano
   - python3
   - python3-pip
 

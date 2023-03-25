@@ -11,25 +11,25 @@
     name: "*"
     state: latest
     update_only: true
-  when: ansible_distribution in ["Fedora", "CentOS", "Red Hat Enterprise Linux"]
+  when: ansible_distribution in ["Fedora", "CentOS", "RedHat"]
 
 - name: Install dnf-utils if on Fedora
   ansible.builtin.package:
     name: dnf-utils
     state: present
-  when: ansible_distribution in ["Fedora", "CentOS", "Red Hat Enterprise Linux"]
+  when: ansible_distribution in ["Fedora", "CentOS", "RedHat"]
 
 - name: Check if a reboot is required on Fedora
   ansible.builtin.command: needs-restarting -r
   register: reboot_required
   ignore_errors: true
   changed_when: reboot_required.rc != 0
-  when: ansible_distribution in ["Fedora", "CentOS", "Red Hat Enterprise Linux"]
+  when: ansible_distribution in ["Fedora", "CentOS", "RedHat"]
 
 - name: Reboot if required on Fedora
   ansible.builtin.reboot:
     msg: Rebooting due to a kernel update
-  when: (ansible_distribution in ["Fedora", "CentOS", "Red Hat Enterprise Linux"]) and reboot_required.rc != 0
+  when: ansible_distribution in ["Fedora", "CentOS", "RedHat "] and reboot_required.rc == 1
 
 - name: Check if reboot required on Ubuntu
   ansible.builtin.stat:

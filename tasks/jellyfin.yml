@@ -7,8 +7,8 @@
     state: started
     restart_policy: unless-stopped
     env:
-      PUID: "{{ puid }}"
-      PGID: "{{ pgid }}"
+      PUID: "{{ {{ username }}_uid }}"
+      PGID: "{{ {{ username }}_gid }}"
       TZ: "{{ timezone }}"
       JELLYFIN_PublishedServerUrl: "{{ ansible_default_ipv4.address }}"
     volumes:

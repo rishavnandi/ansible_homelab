@@ -16,6 +16,6 @@
     networks:
       - name: homelab
     env:
-      PUID: "{{ puid }}"
-      PGID: "{{ pgid }}"
+      PUID: "{{ {{ username }}_uid }}"
+      PGID: "{{ {{ username }}_gid }}"
       TZ: "{{ timezone }}"
