@@ -11,10 +11,10 @@ read -p "Enter server IP address: " server_ip
 read -p "Are you using a password instead of SSH keys? [y/n]: " use_password
 
 # Replace values in vars.yml file
-sed -i "s/<username>/$username/g" vars.yml
-sed -i "s/<timezone>/$timezone/g" vars.yml
-sed -i "s/<wg_pass>/$wg_password/g" vars.yml
-sed -i "s/<code_pass>/$codeserver_password/g" vars.yml
+sed -i "s/<username>/$username/g" group_vars/all/vars.yml
+sed -i "s#<timezone>#$timezone#g" group_vars/all/vars.yml
+sed -i "s/<wg_pass>/$wg_password/g" group_vars/all/vars.yml
+sed -i "s/<code_pass>/$codeserver_password/g" group_vars/all/vars.yml
 
 # Replace values in inventory file
 sed -i "s/<server_ip>/$server_ip/g" inventory
