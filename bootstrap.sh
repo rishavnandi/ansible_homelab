@@ -22,7 +22,7 @@ sed -i "s/<server_ip>/$server_ip/g" inventory
 if [ "$use_password" == "y" ]; then
   read -p "Enter SSH password: " ssh_password
   echo ""
-  sed -i "s/ansible_ssh_private_key_file = <path/to/private/key>//g" inventory
+  sed -i "s#ansible_ssh_private_key_file = <path/to/private/key>##g" inventory
   echo "ansible_ssh_pass: $ssh_password" >> inventory
 else
   read -p "Enter path to private key: " private_key_path
