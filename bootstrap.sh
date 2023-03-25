@@ -21,6 +21,7 @@ sed -i "s/<code_pass>/$codeserver_password/g" group_vars/all/vars.yml
 
 # Replace values in inventory file
 sed -i "s/<server_ip>/$server_ip/g" inventory
+sed -i "s/<username>/$username/g" inventory
 
 if [ "$use_password" == "y" ]; then
   read -p "Enter SSH password: " ssh_password
