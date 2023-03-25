@@ -3,6 +3,14 @@
 Ansible playbooks to quickly setup a homelab. These playbooks are designed to be run on a fresh install of Ubuntu 20.04/22.04 and Debian 11.
 The playbook will update the system, install Docker, and then deploy the Docker containers.
 
+## Bootstrap script
+
+I have included a bootstrap script that clones the repo, asks the user for the username and IP address of the server, and then runs the playbook. You can run the script like this:
+
+```bash
+curl https://raw.githubusercontent.com/rishavnandi/ansible_homelab/master/bootstrap.sh -o bootstrap.sh && bash bootstrap.sh
+```
+
 ## Blog post
 
 I have written a blog post about this repo, you can find it here: [https://www.rishavnandi.com/posts/Ansible_homelab](https://www.rishavnandi.com/posts/Ansible_homelab)
