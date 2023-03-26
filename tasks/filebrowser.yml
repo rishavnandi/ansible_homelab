@@ -18,6 +18,8 @@
       PGID: "{{ username }}_gid"
     pull: true
     state: started
+    networks:
+      - name: homelab
     ports:
       - "8081:80"
     volumes:

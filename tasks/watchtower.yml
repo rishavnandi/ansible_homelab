@@ -10,3 +10,5 @@
       - "/var/run/docker.sock:/var/run/docker.sock"
     env:
       WATCHTOWER_CLEANUP: "true"
+    networks:
+      - name: homelab

@@ -23,6 +23,8 @@
     pull: true
     state: started
     restart_policy: unless-stopped
+    networks:
+      - name: homelab
     env:
       PUID: "{{ username }}_uid"
       PGID: "{{ username }}_gid"

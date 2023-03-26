@@ -20,3 +20,5 @@
     volumes:
       - "{{ docker_dir }}/wg/:/etc/wireguard"
     restart_policy: unless-stopped
+    networks:
+      - name: homelab
