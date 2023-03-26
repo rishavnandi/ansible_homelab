@@ -8,7 +8,7 @@
     restart_policy: unless-stopped
     volumes:
       - "/home/{{ username }}/:/home/{{ username }}"
-      - "{{ docker_dir }}/code-server/config:/config"
+      - "{{ docker_dir }}/code_server/config:/config"
     networks:
       - name: homelab
     env:

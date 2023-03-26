@@ -5,7 +5,7 @@
     image: jc21/nginx-proxy-manager:latest
     pull: true
     state: started
-    restart_policy: unless-stopped'
+    restart_policy: unless-stopped
     networks:
       - name: homelab
     ports:

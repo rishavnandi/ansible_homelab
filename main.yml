@@ -3,12 +3,6 @@
   hosts: all
   become: true
 
-  handlers:
-    - name: Reboot server
-      ansible.builtin.reboot:
-        msg: "Rebooting server because a docker container was deployed"
-      when: docker_apps_deployed is changed
-
   tasks:
     - name: Update server and install essential packages
       ansible.builtin.include_tasks: tasks/essential.yml
@@ -39,7 +33,6 @@
         - vaultwarden
         - watchtower
         - wireguard
-      register: docker_apps_deployed
 
     - name: Modify ownership of data and docker_apps directories
       ansible.builtin.include_tasks: tasks/add_ownership.yml
