@@ -19,7 +19,7 @@
         - guacamole
         - heimdall
         - jellyfin
-        - jellyseer
+        - jellyseerr
         - monitoring
         - nginx
         - portainer
@@ -36,3 +36,7 @@
 
     - name: Modify ownership of data and docker_apps directories
       ansible.builtin.include_tasks: tasks/add_ownership.yml
+
+    - name: Reboot the server
+      ansible.builtin.reboot:
+        msg: "Rebooting server to finish setup"

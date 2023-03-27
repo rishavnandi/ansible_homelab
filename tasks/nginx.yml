@@ -13,5 +13,5 @@
       - "81:81"
       - "443:443"
     volumes:
-      - "{{ docker_dir }}/nginx/config:/config"
+      - "{{ docker_dir }}/nginx/data:/data"
       - "{{ docker_dir }}/nginx/letsencrypt:/etc/letsencrypt"

@@ -26,8 +26,8 @@
     networks:
       - name: homelab
     env:
-      PUID: "{{ username }}_uid"
-      PGID: "{{ username }}_gid"
+      PUID: "{{ puid }}"
+      PGID: "{{ pgid }}"
       TZ: "{{ timezone }}"
       WEBUI_PORT: "8080"
     volumes:

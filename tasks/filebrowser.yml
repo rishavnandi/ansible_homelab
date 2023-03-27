@@ -14,8 +14,8 @@
     name: filebrowser
     image: filebrowser/filebrowser
     env:
-      PUID: "{{ username }}_uid"
-      PGID: "{{ username }}_gid"
+      PUID: "{{ puid }}"
+      PGID: "{{ pgid }}"
     pull: true
     state: started
     networks:
@@ -24,7 +24,7 @@
       - "8081:80"
     volumes:
       - "/home/{{ username }}/:/srv"
-      - "{{ docker_dir }}/filebrowser/:/data"
+      - "{{ docker_dir }}/filebrowser/filebrowser.db:/database.db"
     restart_policy: unless-stopped
     security_opts:
       - no-new-privileges:true

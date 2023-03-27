@@ -12,10 +12,10 @@
       - "21027:21027/udp"
     volumes:
       - "{{ docker_dir }}/syncthing/config:/config"
-      - "{{ docker_dir }}/syncthing/data:/data1"
+      - "{{ docker_dir }}/syncthing/:/data1"
     networks:
       - name: homelab
     env:
-      PUID: "{{ username }}_uid"
-      PGID: "{{ username }}_gid"
+      PUID: "{{ puid }}"
+      PGID: "{{ pgid }}"
       TZ: "{{ timezone }}"

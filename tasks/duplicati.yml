@@ -6,8 +6,6 @@
     pull: true
     state: started
     restart_policy: unless-stopped
-    ports:
-      - "8200:8200"
     volumes:
       - "{{ docker_dir }}/duplicati/config:/config"
       - "{{ docker_dir }}/duplicati/backups:/backups"

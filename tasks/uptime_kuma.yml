@@ -7,7 +7,7 @@
     state: started
     restart_policy: unless-stopped
     volumes:
-      - "{{ docker_dir }}/uptime-kuma/data:/app/data"
+      - "{{ docker_dir }}/uptime_kuma/data:/app/data"
     security_opts:
       - no-new-privileges:true
     networks:

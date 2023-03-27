@@ -13,12 +13,12 @@
     state: started
     env:
       "PASSWORD": "{{ wg_password }}"
-      "WG_HOST": "{{ ansible_default_ipv4.address }}"
+      "WG_HOST": "{{ ip_address }}"
     ports:
       - "51820:51820/udp"
       - "51821:51821/tcp"
     volumes:
-      - "{{ docker_dir }}/wg/:/etc/wireguard"
+      - "{{ docker_dir }}/wg/config:/etc/wireguard"
     restart_policy: unless-stopped
     networks:
       - name: homelab

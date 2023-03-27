@@ -1,10 +1,4 @@
 ---
-- name: Create vaultwarden volume
-  community.docker.docker_volume:
-    name: vw-data
-    state: present
-    driver: local
-
 - name: Create vaultwarden container
   community.docker.docker_container:
     name: vaultwarden
@@ -13,6 +7,6 @@
     state: started
     restart_policy: unless-stopped
     volumes:
-      - vw-data:/data
+      - "{{ docker_dir }}/vaultwarden/data:/data"
     networks:
       - name: homelab

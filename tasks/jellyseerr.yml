@@ -7,7 +7,7 @@
     state: started
     restart_policy: unless-stopped
     volumes:
-      - "{{ docker_dir }}/jellyseerr/config:/config"
+      - "{{ docker_dir }}/jellyseerr/config:/app/config"
     networks:
       - name: homelab
     env:

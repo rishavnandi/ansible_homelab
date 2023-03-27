@@ -4,6 +4,12 @@ username: <username>
 docker_dir: /home/{{ username }}/docker_apps
 data_dir: /home/{{ username }}/data
 
+puid: <puid>
+
+pgid: <pgid>
+
+ip_address: <server_ip>
+
 timezone: <timezone>
 
 wg_password: <wg_pass>

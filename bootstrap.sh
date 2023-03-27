@@ -7,6 +7,8 @@ git clone https://github.com/rishavnandi/ansible_homelab.git && cd ansible_homel
 
 # Read user input
 read -p "Enter username: " username
+read -p "Enter puid of the user: " puid
+read -p "Enter pgid of the user: " pgid
 read -p "Enter timezone: " timezone
 read -p "Enter password for wireguard: " wg_password
 read -p "Enter password for codeserver: " codeserver_password
@@ -18,6 +20,9 @@ sed -i "s/<username>/$username/g" group_vars/all/vars.yml
 sed -i "s#<timezone>#$timezone#g" group_vars/all/vars.yml
 sed -i "s/<wg_pass>/$wg_password/g" group_vars/all/vars.yml
 sed -i "s/<code_pass>/$codeserver_password/g" group_vars/all/vars.yml
+sed -i "s/<server_ip>/$server_ip/g" group_vars/all/vars.yml
+sed -i "s/<puid>/$puid/g" group_vars/all/vars.yml
+sed -i "s/<pgid>/$pgid/g" group_vars/all/vars.yml
 
 # Replace values in inventory file
 sed -i "s/<server_ip>/$server_ip/g" inventory

@@ -90,7 +90,7 @@
     - "{{ docker_dir }}/guacamole"
     - "{{ docker_dir }}/heimdall"
     - "{{ docker_dir }}/jellyfin"
-    - "{{ docker_dir }}/jellyseer"
+    - "{{ docker_dir }}/jellyseerr"
     - "{{ docker_dir }}/monitoring"
     - "{{ docker_dir }}/nginx"
     - "{{ docker_dir }}/portainer"

@@ -7,10 +7,10 @@
     state: started
     restart_policy: unless-stopped
     env:
-      PUID: "{{ username }}_uid"
-      PGID: "{{ username }}_gid"
+      PUID: "{{ puid }}"
+      PGID: "{{ pgid }}"
       TZ: "{{ timezone }}"
-      JELLYFIN_PublishedServerUrl: "{{ ansible_default_ipv4.address }}"
+      JELLYFIN_PublishedServerUrl: "{{ ip_address }}"
     volumes:
       - "{{ docker_dir }}/jellyfin/config:/config"
       - "{{ data_dir }}/media:/data/media"

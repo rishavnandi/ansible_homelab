@@ -7,8 +7,8 @@
     state: started
     restart_policy: unless-stopped
     env:
-      PUID: "{{ username }}_uid"
-      PGID: "{{ username }}_gid"
+      PUID: "{{ puid }}"
+      PGID: "{{ pgid }}"
       TZ: "{{ timezone }}"
     volumes:
       - "{{ docker_dir }}/prowlarr/config:/config"
