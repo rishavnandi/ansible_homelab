@@ -2,7 +2,7 @@
 - name: Create guacamole container
   community.docker.docker_container:
     name: guacamole
-    image: oznu/guacamole
+    image: maxwaldorf/guacamole
     pull: true
     state: started
     restart_policy: unless-stopped
