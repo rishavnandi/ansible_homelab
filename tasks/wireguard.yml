@@ -1,5 +1,5 @@
 ---
-- name: Create wg container
+- name: Create wireguard container
   community.docker.docker_container:
     name: wireguard
     image: weejewel/wg-easy
@@ -18,7 +18,7 @@
       - "51820:51820/udp"
       - "51821:51821/tcp"
     volumes:
-      - "{{ docker_dir }}/wg/config:/etc/wireguard"
+      - "{{ docker_dir }}/wireguard/config:/etc/wireguard"
     restart_policy: unless-stopped
     networks:
       - name: homelab
