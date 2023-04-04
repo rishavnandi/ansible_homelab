@@ -20,11 +20,21 @@
     state: started
     networks:
       - name: homelab
-    ports:
-      - "8081:80"
     volumes:
       - "/home/{{ username }}/:/srv"
       - "{{ docker_dir }}/filebrowser/filebrowser.db:/database.db"
     restart_policy: unless-stopped
     security_opts:
       - no-new-privileges:true
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.files.entrypoints: "http"
+      traefik.http.routers.files.rule: "Host(`files.{{ domain }}`)"
+      traefik.http.middlewares.files-https-redirect.redirectscheme.scheme: "https"
+      traefik.http.routers.files.middlewares: "files-https-redirect"
+      traefik.http.routers.files-secure.entrypoints: "https"
+      traefik.http.routers.files-secure.rule: "Host(`files.{{ domain }}`)"
+      traefik.http.routers.files-secure.tls: "true"
+      traefik.http.routers.files-secure.service: "files"
+      traefik.http.services.files.loadbalancer.server.port: "80"
+      traefik.docker.network: "homelab"

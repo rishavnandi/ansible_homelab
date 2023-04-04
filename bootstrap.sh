@@ -14,6 +14,9 @@ read -p "Enter password for wireguard: " wg_password
 read -p "Enter password for codeserver: " codeserver_password
 read -p "Enter server IP address: " server_ip
 read -p "Are you using a password instead of SSH keys? [y/n]: " use_password
+read -p "Enter the domain name: " domain_name
+read -p "Enter the Cloudflare email: " cloudflare_email
+read -p "Enter the Cloudflare API key: " cloudflare_api_key
 
 # Replace values in vars.yml file
 sed -i "s/<username>/$username/g" group_vars/all/vars.yml
@@ -23,6 +26,9 @@ sed -i "s/<code_pass>/$codeserver_password/g" group_vars/all/vars.yml
 sed -i "s/<server_ip>/$server_ip/g" group_vars/all/vars.yml
 sed -i "s/<puid>/$puid/g" group_vars/all/vars.yml
 sed -i "s/<pgid>/$pgid/g" group_vars/all/vars.yml
+sed -i "s/<domain_name>/$domain_name/g" group_vars/all/vars.yml
+sed -i "s/<cloudflare_email>/$cloudflare_email/g" group_vars/all/vars.yml
+sed -i "s/<cloudflare_api_key>/$cloudflare_api_key/g" group_vars/all/vars.yml
 
 # Replace values in inventory file
 sed -i "s/<server_ip>/$server_ip/g" inventory

@@ -6,9 +6,19 @@
     pull: true
     state: started
     restart_policy: unless-stopped
-    ports:
-      - "9000:8080"
     volumes:
       - "{{ docker_dir }}/guacamole/config:/config"
     networks:
       - name: homelab
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.guac.entrypoints: "http"
+      traefik.http.routers.guac.rule: "Host(`guac.{{ domain }}`)"
+      traefik.http.middlewares.guac-https-redirect.redirectscheme.scheme: "https"
+      traefik.http.routers.guac.middlewares: "guac-https-redirect"
+      traefik.http.routers.guac-secure.entrypoints: "https"
+      traefik.http.routers.guac-secure.rule: "Host(`guac.{{ domain }}`)"
+      traefik.http.routers.guac-secure.tls: "true"
+      traefik.http.routers.guac-secure.service: "guac"
+      traefik.http.services.guac.loadbalancer.server.port: "8080"
+      traefik.docker.network: "homelab"

@@ -19,22 +19,31 @@
 - name: Create qbittorrent container
   community.docker.docker_container:
     name: qbittorrent
-    image: lscr.io/linuxserver/qbittorrent
-    pull: true
-    state: started
+    image: linuxserver/qbittorrent
     restart_policy: unless-stopped
+    state: started
     networks:
       - name: homelab
-    env:
-      PUID: "{{ puid }}"
-      PGID: "{{ pgid }}"
-      TZ: "{{ timezone }}"
-      WEBUI_PORT: "8080"
+    ports:
+      - "6881:6881"
+      - "6881:6881/udp"
     volumes:
       - "{{ docker_dir }}/qbittorrent/config:/config"
       - "{{ data_dir }}/torrents:/data/torrents"
       - "{{ docker_dir }}/qbittorrent/vuetorrent:/vuetorrent"
-    ports:
-      - "6881:6881"
-      - "6881:6881/udp"
-      - "8080:8080"
+    env:
+      PUID: "{{ puid }}"
+      PGID: "{{ pgid }}"
+      TZ: "{{ timezone }}"
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.qbit.entrypoints: "http"
+      traefik.http.routers.qbit.rule: "Host(`qbit.{{ domain }}`)"
+      traefik.http.middlewares.qbit-https-redirect.redirectscheme.scheme: "https"
+      traefik.http.routers.qbit.middlewares: "qbit-https-redirect"
+      traefik.http.routers.qbit-secure.entrypoints: "https"
+      traefik.http.routers.qbit-secure.rule: "Host(`qbit.{{ domain }}`)"
+      traefik.http.routers.qbit-secure.tls: "true"
+      traefik.http.routers.qbit-secure.service: "qbit"
+      traefik.http.services.qbit.loadbalancer.server.port: "8080"
+      traefik.docker.network: "homelab"

@@ -16,3 +16,15 @@
       - "{{ data_dir }}:/data"
     networks:
       - name: homelab
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.sonarr.entrypoints: "http"
+      traefik.http.routers.sonarr.rule: "Host(`sonarr.{{ domain }}`)"
+      traefik.http.middlewares.sonarr-https-redirect.redirectscheme.scheme: "https"
+      traefik.http.routers.sonarr.middlewares: "sonarr-https-redirect"
+      traefik.http.routers.sonarr-secure.entrypoints: "https"
+      traefik.http.routers.sonarr-secure.rule: "Host(`sonarr.{{ domain }}`)"
+      traefik.http.routers.sonarr-secure.tls: "true"
+      traefik.http.routers.sonarr-secure.service: "sonarr"
+      traefik.http.services.sonarr.loadbalancer.server.port: "8989"
+      traefik.docker.network: "homelab"

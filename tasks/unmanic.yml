@@ -16,3 +16,15 @@
       - /tmp:/tmp/unmanic
     networks:
       - name: homelab
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.unmanic.entrypoints: "http"
+      traefik.http.routers.unmanic.rule: "Host(`unmanic.{{ domain }}`)"
+      traefik.http.middlewares.unmanic-https-redirect.redirectscheme.scheme: "https"
+      traefik.http.routers.unmanic.middlewares: "unmanic-https-redirect"
+      traefik.http.routers.unmanic-secure.entrypoints: "https"
+      traefik.http.routers.unmanic-secure.rule: "Host(`unmanic.{{ domain }}`)"
+      traefik.http.routers.unmanic-secure.tls: "true"
+      traefik.http.routers.unmanic-secure.service: "unmanic"
+      traefik.http.services.unmanic.loadbalancer.server.port: "8888"
+      traefik.docker.network: "homelab"

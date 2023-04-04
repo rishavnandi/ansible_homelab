@@ -99,6 +99,7 @@
     - "{{ docker_dir }}/radarr"
     - "{{ docker_dir }}/sonarr"
     - "{{ docker_dir }}/syncthing"
+    - "{{ docker_dir }}/traefik"
     - "{{ docker_dir }}/unmanic"
     - "{{ docker_dir }}/uptime_kuma"
     - "{{ docker_dir }}/vaultwarden"

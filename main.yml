@@ -13,6 +13,7 @@
     - name: Deploy docker apps
       ansible.builtin.include_tasks: "tasks/{{ item }}.yml"
       loop:
+        - traefik
         - code_server
         - duplicati
         - filebrowser
@@ -21,7 +22,7 @@
         - jellyfin
         - jellyseerr
         - monitoring
-        - nginx
+        # - nginx
         - portainer
         - prowlarr
         - qbittorrent

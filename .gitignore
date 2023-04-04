@@ -2,6 +2,7 @@
 *.pem
 linode_ansible
 linode_ansible.pub
+.vscode
 
 # Local .terraform directories
 **/.terraform/*
