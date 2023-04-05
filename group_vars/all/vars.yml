@@ -12,6 +12,12 @@ ip_address: <server_ip>
 
 timezone: <timezone>
 
+domain: <domain_name>
+
+cloudflare_email: <cloudflare_email>
+
+cloudflare_api_key: <cloudflare_api_key>
+
 wg_password: <wg_pass>
 
 codeserver_password: <code_pass>
