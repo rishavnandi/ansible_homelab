@@ -26,5 +26,6 @@
       traefik.http.routers.jellyfin-secure.rule: "Host(`jellyfin.{{ domain }}`)"
       traefik.http.routers.jellyfin-secure.tls: "true"
       traefik.http.routers.jellyfin-secure.service: "jellyfin"
+      traefik.http.routers.jellyfin-secure.middlewares: "authelia@docker"
       traefik.http.services.jellyfin.loadbalancer.server.port: "8096"
       traefik.docker.network: "homelab"

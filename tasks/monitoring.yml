@@ -68,7 +68,7 @@
 - name: Create cadvisor container
   community.docker.docker_container:
     name: cadvisor
-    image: raymondmm/cadvisor
+    image: gcr.io/cadvisor/cadvisor
     pull: true
     state: started
     restart_policy: unless-stopped
@@ -104,5 +104,6 @@
       traefik.http.routers.grafana-secure.rule: "Host(`grafana.{{ domain }}`)"
       traefik.http.routers.grafana-secure.tls: "true"
       traefik.http.routers.grafana-secure.service: "grafana"
+      traefik.http.routers.grafana-secure.middlewares: "authelia@docker"
       traefik.http.services.grafana.loadbalancer.server.port: "3000"
       traefik.docker.network: "homelab"

@@ -26,5 +26,6 @@
       traefik.http.routers.duplicati-secure.rule: "Host(`duplicati.{{ domain }}`)"
       traefik.http.routers.duplicati-secure.tls: "true"
       traefik.http.routers.duplicati-secure.service: "duplicati"
+      traefik.http.routers.duplicati-secure.middlewares: "authelia@docker"
       traefik.http.services.duplicati.loadbalancer.server.port: "8200"
       traefik.docker.network: "homelab"

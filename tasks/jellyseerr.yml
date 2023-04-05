@@ -23,5 +23,6 @@
       traefik.http.routers.jellyseerr-secure.rule: "Host(`jellyseerr.{{ domain }}`)"
       traefik.http.routers.jellyseerr-secure.tls: "true"
       traefik.http.routers.jellyseerr-secure.service: "jellyseerr"
+      traefik.http.routers.jellyseerr-secure.middlewares: "authelia@docker"
       traefik.http.services.jellyseerr.loadbalancer.server.port: "5055"
       traefik.docker.network: home"lab

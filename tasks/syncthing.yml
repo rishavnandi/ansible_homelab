@@ -29,5 +29,6 @@
       traefik.http.routers.sync-secure.rule: "Host(`sync.{{ domain }}`)"
       traefik.http.routers.sync-secure.tls: "true"
       traefik.http.routers.sync-secure.service: "sync"
+      traefik.http.routers.sync-secure.middlewares: "authelia@docker"
       traefik.http.services.sync.loadbalancer.server.port: "8384"
       traefik.docker.network: "homelab"

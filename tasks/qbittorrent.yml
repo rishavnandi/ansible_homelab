@@ -45,5 +45,6 @@
       traefik.http.routers.qbit-secure.rule: "Host(`qbit.{{ domain }}`)"
       traefik.http.routers.qbit-secure.tls: "true"
       traefik.http.routers.qbit-secure.service: "qbit"
+      traefik.http.routers.qbit-secure.middlewares: "authelia@docker"
       traefik.http.services.qbit.loadbalancer.server.port: "8080"
       traefik.docker.network: "homelab"

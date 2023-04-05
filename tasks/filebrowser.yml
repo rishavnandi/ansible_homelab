@@ -36,5 +36,6 @@
       traefik.http.routers.files-secure.rule: "Host(`files.{{ domain }}`)"
       traefik.http.routers.files-secure.tls: "true"
       traefik.http.routers.files-secure.service: "files"
+      traefik.http.routers.files-secure.middlewares: "authelia@docker"
       traefik.http.services.files.loadbalancer.server.port: "80"
       traefik.docker.network: "homelab"

@@ -20,5 +20,6 @@
       traefik.http.routers.vault-secure.rule: "Host(`vault.{{ domain }}`)"
       traefik.http.routers.vault-secure.tls: "true"
       traefik.http.routers.vault-secure.service: "vault"
+      traefik.http.routers.vault-secure.middlewares: "authelia@docker"
       traefik.http.services.vault.loadbalancer.server.port: "80"
       traefik.docker.network: "homelab"

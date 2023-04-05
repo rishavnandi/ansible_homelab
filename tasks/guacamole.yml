@@ -20,5 +20,6 @@
       traefik.http.routers.guac-secure.rule: "Host(`guac.{{ domain }}`)"
       traefik.http.routers.guac-secure.tls: "true"
       traefik.http.routers.guac-secure.service: "guac"
+      traefik.http.routers.guac-secure.middlewares: "authelia@docker"
       traefik.http.services.guac.loadbalancer.server.port: "8080"
       traefik.docker.network: "homelab"

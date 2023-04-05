@@ -7,8 +7,8 @@
     access_time: preserve
     modification_time: preserve
 
-- name: create acme.json file
-  file:
+- name: Create acme.json file
+  ansible.builtin.file:
     path: "{{ docker_dir }}/traefik/data/acme.json"
     state: touch
     mode: '0600'
@@ -52,7 +52,7 @@
     owner: "{{ username }}"
     group: "{{ username }}"
 
-- name: deploy traefik with docker container
+- name: Deploy traefik with docker container
   community.docker.docker_container:
     name: traefik
     image: traefik:latest
@@ -76,7 +76,7 @@
       traefik.enable: "true"
       traefik.http.routers.traefik.entrypoints: "http"
       traefik.http.routers.traefik.rule: "Host(`traefik.{{ domain }}`)"
-      traefik.http.middlewares.traefik-auth.basicauth.users: "admin:$$2y$$05$$XcYo2XpgVi3dkOyi3nbJyefGBJzLM/hmVGg21E.g2iZ5iHNBG.kWK"
+      traefik.http.middlewares.traefik-auth.basicauth.users: "{{ traefik_basic_auth_hash }}"
       traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme: "https"
       traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto: "https"
       traefik.http.routers.traefik.middlewares: "traefik-https-redirect"

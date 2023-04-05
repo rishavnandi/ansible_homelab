@@ -17,6 +17,7 @@ read -p "Are you using a password instead of SSH keys? [y/n]: " use_password
 read -p "Enter the domain name: " domain_name
 read -p "Enter the Cloudflare email for traefik: " cloudflare_email
 read -p "Enter the Cloudflare API key for traefik: " cloudflare_api_key
+read -p "Enter traefik dashboard user hash: " traefik_user_hash
 read -p "Enter jwt secret for authelia: " jwt_secret
 read -p "Enter encryption key for authelia sqlite database: " encryption_key
 read -p "Enter gmail address for authelia smtp: " gmail_address
@@ -35,6 +36,7 @@ sed -i "s/<pgid>/$pgid/g" group_vars/all/vars.yml
 sed -i "s/<domain_name>/$domain_name/g" group_vars/all/vars.yml
 sed -i "s/<cloudflare_email>/$cloudflare_email/g" group_vars/all/vars.yml
 sed -i "s/<cloudflare_api_key>/$cloudflare_api_key/g" group_vars/all/vars.yml
+sed -i "s/<traefik_basic_auth_hash>/$traefik_user_hash/g" group_vars/all/vars.yml
 sed -i "s/<jwt_secret>/$jwt_secret/g" group_vars/all/vars.yml
 sed -i "s/<authelia_sqlite_encryption_key>/$encryption_key/g" group_vars/all/vars.yml
 sed -i "s/<google_email>/$gmail_address/g" group_vars/all/vars.yml

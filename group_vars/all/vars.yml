@@ -18,11 +18,13 @@ cloudflare_email: <cloudflare_email>
 
 cloudflare_api_key: <cloudflare_api_key>
 
+traefik_basic_auth_hash: <traefik_basic_auth_hash>
+
 jwt_secret: <jwt_secret>
 
 authelia_sqlite_encryption_key: <authelia_sqlite_encryption_key>
 
-google_mail: <google_mail>
+google_mail: <google_email>
 
 google_insecure_app_pass: <google_insecure_app_pass>
 

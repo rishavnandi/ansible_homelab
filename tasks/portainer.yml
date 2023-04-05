@@ -24,5 +24,6 @@
       traefik.http.routers.portainer-secure.rule: "Host(`portainer.{{ domain }}`)"
       traefik.http.routers.portainer-secure.tls: "true"
       traefik.http.routers.portainer-secure.service: "portainer"
+      traefik.http.routers.portainer-secure.middlewares: "authelia@docker"
       traefik.http.services.portainer.loadbalancer.server.port: "9000"
       traefik.docker.network: "homelab"

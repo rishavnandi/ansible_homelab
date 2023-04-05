@@ -13,8 +13,8 @@
     - name: Deploy docker apps
       ansible.builtin.include_tasks: "tasks/{{ item }}.yml"
       loop:
-        - traefik
         - authelia
+        - traefik
         - code_server
         - duplicati
         - filebrowser

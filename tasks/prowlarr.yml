@@ -24,5 +24,6 @@
       traefik.http.routers.prowlarr-secure.rule: "Host(`prowlarr.{{ domain }}`)"
       traefik.http.routers.prowlarr-secure.tls: "true"
       traefik.http.routers.prowlarr-secure.service: "prowlarr"
+      traefik.http.routers.prowlarr-secure.middlewares: "authelia@docker"
       traefik.http.services.prowlarr.loadbalancer.server.port: "9696"
       traefik.docker.network: "homelab"

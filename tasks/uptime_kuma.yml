@@ -22,5 +22,6 @@
       traefik.http.routers.uptime-secure.rule: "Host(`uptime.{{ domain }}`)"
       traefik.http.routers.uptime-secure.tls: "true"
       traefik.http.routers.uptime-secure.service: "uptime"
+      traefik.http.routers.uptime-secure.middlewares: "authelia@docker"
       traefik.http.services.uptime.loadbalancer.server.port: "3001"
       traefik.docker.network: "homelab"

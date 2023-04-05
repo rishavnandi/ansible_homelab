@@ -32,11 +32,13 @@
             salt_length: 16
             parallelism: 8
             memory: 64
-            
+
       access_control:
         default_policy: deny
         rules:
           # Rules applied to everyone
+          - domain: "traefik.{{ domain }}"
+            policy: bypass
           - domain: "code.{{ domain }}"
             policy: two_factor
           - domain: "duplicati.{{ domain }}"
@@ -99,14 +101,14 @@
           username: "{{ google_mail }}"
           # Password can also be set using a secret: https://www.authelia.com/configuration/methods/secrets/
           password: "{{ google_insecure_app_pass }}"
-          sender: "{{ google_mail }}"
+          sender: "authelia@{{ domain }}"
           host: smtp.gmail.com
           port: 587
       ...
     dest: "{{ docker_dir }}/authelia/config/configuration.yml"
     mode: '0644'
-    modification_time: preserve
-    access_time: preserve
+    owner: "{{ username }}"
+    group: "{{ username }}"
 
 - name: Create authelia users database file
   ansible.builtin.copy:
@@ -123,8 +125,8 @@
       ...
     dest: "{{ docker_dir }}/authelia/config/users_database.yml"
     mode: '0644'
-    modification_time: preserve
-    access_time: preserve
+    owner: "{{ username }}"
+    group: "{{ username }}"
 
 - name: Create authelia container
   community.docker.docker_container:
@@ -148,5 +150,3 @@
       - "9091"
     env:
       TZ: "{{ timezone }}"
-    healthcheck:
-      disable: true
