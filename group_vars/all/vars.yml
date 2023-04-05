@@ -18,6 +18,18 @@ cloudflare_email: <cloudflare_email>
 
 cloudflare_api_key: <cloudflare_api_key>
 
+jwt_secret: <jwt_secret>
+
+authelia_sqlite_encryption_key: <authelia_sqlite_encryption_key>
+
+google_mail: <google_mail>
+
+google_insecure_app_pass: <google_insecure_app_pass>
+
+authelia_admin_mail: <authelia_admin_mail>
+
+authelia_admin_argon2id_pass: <authelia_admin_argon2id_pass>
+
 wg_password: <wg_pass>
 
 codeserver_password: <code_pass>

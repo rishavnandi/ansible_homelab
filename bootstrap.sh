@@ -15,8 +15,14 @@ read -p "Enter password for codeserver: " codeserver_password
 read -p "Enter server IP address: " server_ip
 read -p "Are you using a password instead of SSH keys? [y/n]: " use_password
 read -p "Enter the domain name: " domain_name
-read -p "Enter the Cloudflare email: " cloudflare_email
-read -p "Enter the Cloudflare API key: " cloudflare_api_key
+read -p "Enter the Cloudflare email for traefik: " cloudflare_email
+read -p "Enter the Cloudflare API key for traefik: " cloudflare_api_key
+read -p "Enter jwt secret for authelia: " jwt_secret
+read -p "Enter encryption key for authelia sqlite database: " encryption_key
+read -p "Enter gmail address for authelia smtp: " gmail_address
+read -p "Enter gmail insecure app password for authelia smtp: " gmail_password
+read -p "Enter email for authelia admin: " admin_email
+read -p "Enter argon2id password hash for authelia admin: " admin_password
 
 # Replace values in vars.yml file
 sed -i "s/<username>/$username/g" group_vars/all/vars.yml
@@ -29,6 +35,12 @@ sed -i "s/<pgid>/$pgid/g" group_vars/all/vars.yml
 sed -i "s/<domain_name>/$domain_name/g" group_vars/all/vars.yml
 sed -i "s/<cloudflare_email>/$cloudflare_email/g" group_vars/all/vars.yml
 sed -i "s/<cloudflare_api_key>/$cloudflare_api_key/g" group_vars/all/vars.yml
+sed -i "s/<jwt_secret>/$jwt_secret/g" group_vars/all/vars.yml
+sed -i "s/<authelia_sqlite_encryption_key>/$encryption_key/g" group_vars/all/vars.yml
+sed -i "s/<google_email>/$gmail_address/g" group_vars/all/vars.yml
+sed -i "s/<google_insecure_app_pass>/$gmail_password/g" group_vars/all/vars.yml
+sed -i "s/<authelia_admin_mail>/$admin_email/g" group_vars/all/vars.yml
+sed -i "s/<authelia_admin_argon2id_pass>/$admin_password/g" group_vars/all/vars.yml
 
 # Replace values in inventory file
 sed -i "s/<server_ip>/$server_ip/g" inventory

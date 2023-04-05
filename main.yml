@@ -14,6 +14,7 @@
       ansible.builtin.include_tasks: "tasks/{{ item }}.yml"
       loop:
         - traefik
+        - authelia
         - code_server
         - duplicati
         - filebrowser
