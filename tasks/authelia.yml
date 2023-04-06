@@ -74,7 +74,7 @@
           - domain: "uptime.{{ domain }}"
             policy: two_factor
           - domain: "vault.{{ domain }}"
-            policy: two_factor
+            policy: bypass
           - domain: "wg.{{ domain }}"
             policy: two_factor
 
