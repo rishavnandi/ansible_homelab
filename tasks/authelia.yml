@@ -1,0 +1,152 @@
+---
+- name: Create authelia config directory
+  ansible.builtin.file:
+    path: "{{ docker_dir }}/authelia/config"
+    state: directory
+    mode: '0755'
+    access_time: preserve
+    modification_time: preserve
+
+- name: Create authelia config file
+  ansible.builtin.copy:
+    content: |
+      ---
+      server:
+        host: 0.0.0.0
+        port: 9091
+      log:
+        level: debug
+      theme: dark
+      # This secret can also be set using the env variables AUTHELIA_JWT_SECRET_FILE
+      jwt_secret: "{{ jwt_secret }}"
+      default_redirection_url: "https://auth.{{ domain }}"
+      totp:
+        issuer: authelia.com
+
+      authentication_backend:
+        file:
+          path: /config/users_database.yml
+          password:
+            algorithm: argon2id
+            iterations: 1
+            salt_length: 16
+            parallelism: 8
+            memory: 64
+
+      access_control:
+        default_policy: deny
+        rules:
+          # Rules applied to everyone
+          - domain: "traefik.{{ domain }}"
+            policy: bypass
+          - domain: "code.{{ domain }}"
+            policy: two_factor
+          - domain: "duplicati.{{ domain }}"
+            policy: two_factor
+          - domain: "files.{{ domain }}"
+            policy: two_factor
+          - domain: "guac.{{ domain }}"
+            policy: two_factor
+          - domain: "heimdall.{{ domain }}"
+            policy: two_factor
+          - domain: "jellyfin.{{ domain }}"
+            policy: two_factor
+          - domain: "jellyseerr.{{ domain }}"
+            policy: two_factor
+          - domain: "grafana.{{ domain }}"
+            policy: two_factor
+          - domain: "portainer.{{ domain }}"
+            policy: two_factor
+          - domain: "prowlarr.{{ domain }}"
+            policy: two_factor
+          - domain: "qbit.{{ domain }}"
+            policy: two_factor
+          - domain: "radarr.{{ domain }}"
+            policy: two_factor
+          - domain: "sonarr.{{ domain }}"
+            policy: two_factor
+          - domain: "sync.{{ domain }}"
+            policy: two_factor
+          - domain: "traefik.{{ domain }}"
+            policy: two_factor
+          - domain: "unmanic.{{ domain }}"
+            policy: two_factor
+          - domain: "uptime.{{ domain }}"
+            policy: two_factor
+          - domain: "vault.{{ domain }}"
+            policy: two_factor
+          - domain: "wg.{{ domain }}"
+            policy: two_factor
+
+      session:
+        name: authelia_session
+        # This secret can also be set using the env variables AUTHELIA_SESSION_SECRET_FILE
+        secret: unsecure_session_secret
+        expiration: 3600  # 1 hour
+        inactivity: 300  # 5 minutes
+        domain: "{{ domain }}"  # Should match whatever your root protected domain is
+
+      regulation:
+        max_retries: 3
+        find_time: 120
+        ban_time: 300
+
+      storage:
+        encryption_key: "{{ authelia_sqlite_encryption_key }}"
+        local:
+          path: /config/db.sqlite3
+
+      notifier:
+        smtp:
+          username: "{{ google_mail }}"
+          # Password can also be set using a secret: https://www.authelia.com/configuration/methods/secrets/
+          password: "{{ google_insecure_app_pass }}"
+          sender: "authelia@{{ domain }}"
+          host: smtp.gmail.com
+          port: 587
+      ...
+    dest: "{{ docker_dir }}/authelia/config/configuration.yml"
+    mode: '0644'
+    owner: "{{ username }}"
+    group: "{{ username }}"
+
+- name: Create authelia users database file
+  ansible.builtin.copy:
+    content: |
+      ---
+      users:
+        admin:
+          displayname: admin
+          email: "{{ authelia_admin_mail }}"
+          password: "{{ authelia_admin_argon2id_pass }}"
+          groups:
+            - admins
+            - dev
+      ...
+    dest: "{{ docker_dir }}/authelia/config/users_database.yml"
+    mode: '0644'
+    owner: "{{ username }}"
+    group: "{{ username }}"
+
+- name: Create authelia container
+  community.docker.docker_container:
+    name: authelia
+    image: authelia/authelia:latest
+    state: started
+    restart_policy: unless-stopped
+    volumes:
+      - "{{ docker_dir }}/authelia/config:/config"
+    networks:
+      - name: homelab
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.authelia.rule: "Host(`auth.{{ domain }}`)"
+      traefik.http.routers.authelia.entrypoints: "https"
+      traefik.http.routers.authelia.tls: "true"
+      traefik.http.middlewares.authelia.forwardauth.address: "http://authelia:9091/api/verify?rd=https://auth.{{ domain }}"
+      traefik.http.middlewares.authelia.forwardauth.trustForwardHeader: "true"
+      traefik.http.middlewares.authelia.forwardauth.authResponseHeaders: "Remote-User, Remote-Groups, Remote-Name, Remote-Email"
+    exposed_ports:
+      - "9091"
+    env:
+      TZ: "{{ timezone }}"

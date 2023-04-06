@@ -16,9 +16,21 @@
       "WG_HOST": "{{ ip_address }}"
     ports:
       - "51820:51820/udp"
-      - "51821:51821/tcp"
     volumes:
       - "{{ docker_dir }}/wireguard/config:/etc/wireguard"
     restart_policy: unless-stopped
     networks:
       - name: homelab
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.wg.entrypoints: "http"
+      traefik.http.routers.wg.rule: "Host(`wg.{{ domain }}`)"
+      traefik.http.middlewares.wg-https-redirect.redirectscheme.scheme: "https"
+      traefik.http.routers.wg.middlewares: "wg-https-redirect"
+      traefik.http.routers.wg-secure.entrypoints: "https"
+      traefik.http.routers.wg-secure.rule: "Host(`wg.{{ domain }}`)"
+      traefik.http.routers.wg-secure.tls: "true"
+      traefik.http.routers.wg-secure.service: "wg"
+      traefik.http.routers.wg-secure.middlewares: "authelia@docker"
+      traefik.http.services.wg.loadbalancer.server.port: "51821"
+      traefik.docker.network: "homelab"

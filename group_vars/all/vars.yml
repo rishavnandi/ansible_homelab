@@ -1,5 +1,5 @@
 ---
-username: <username>
+username: "<username>"
 
 docker_dir: /home/{{ username }}/docker_apps
 data_dir: /home/{{ username }}/data
@@ -8,13 +8,33 @@ puid: "<puid>"
 
 pgid: "<pgid>"
 
-ip_address: <server_ip>
+ip_address: "<server_ip>"
 
-timezone: <timezone>
+timezone: "<timezone>"
 
-wg_password: <wg_pass>
+domain: "<domain_name>"
 
-codeserver_password: <code_pass>
+cloudflare_email: "<cloudflare_email>"
+
+cloudflare_api_key: "<cloudflare_api_key>"
+
+traefik_basic_auth_hash: "<traefik_basic_auth_hash>"
+
+jwt_secret: "<jwt_secret>"
+
+authelia_sqlite_encryption_key: "<authelia_sqlite_encryption_key>"
+
+google_mail: "<google_email>"
+
+google_insecure_app_pass: "<google_insecure_app_pass>"
+
+authelia_admin_mail: "<authelia_admin_mail>"
+
+authelia_admin_argon2id_pass: "<authelia_admin_argon2id_pass>"
+
+wg_password: "<wg_pass>"
+
+codeserver_password: "<code_pass>"
 
 packages:
   - unzip

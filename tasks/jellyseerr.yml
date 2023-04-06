@@ -13,3 +13,16 @@
     env:
       LOG_LEVEL: debug
       TZ: "{{ timezone }}"
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.jellyseerr.entrypoints: "http"
+      traefik.http.routers.jellyseerr.rule: "Host(`jellyseerr.{{ domain }}`)"
+      traefik.http.middlewares.jellyseerr-https-redirect.redirectscheme.scheme: "https"
+      traefik.http.routers.jellyseerr.middlewares: "jellyseerr-https-redirect"
+      traefik.http.routers.jellyseerr-secure.entrypoints: "https"
+      traefik.http.routers.jellyseerr-secure.rule: "Host(`jellyseerr.{{ domain }}`)"
+      traefik.http.routers.jellyseerr-secure.tls: "true"
+      traefik.http.routers.jellyseerr-secure.service: "jellyseerr"
+      traefik.http.routers.jellyseerr-secure.middlewares: "authelia@docker"
+      traefik.http.services.jellyseerr.loadbalancer.server.port: "5055"
+      traefik.docker.network: home"lab

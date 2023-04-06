@@ -1,0 +1,90 @@
+---
+- name: Create traefik data directory
+  ansible.builtin.file:
+    path: "{{ docker_dir }}/traefik/data"
+    state: directory
+    mode: '0755'
+    access_time: preserve
+    modification_time: preserve
+
+- name: Create acme.json file
+  ansible.builtin.file:
+    path: "{{ docker_dir }}/traefik/data/acme.json"
+    state: touch
+    mode: '0600'
+    access_time: preserve
+    modification_time: preserve
+
+- name: Create traefik.yml config file
+  ansible.builtin.copy:
+    content: |
+      api:
+        debug: true
+        dashboard: true
+      entryPoints:
+        http:
+          address: ":80"
+          http:
+            redirections:
+              entryPoint:
+                to: "https"
+                scheme: "https"
+        https:
+          address: ":443"
+      serversTransport:
+        insecureSkipVerify: true
+      providers:
+        docker:
+          endpoint: "unix:///var/run/docker.sock"
+          exposedByDefault: false
+      certificatesResolvers:
+        cloudflare:
+          acme:
+            email: "{{ cloudflare_email }}"
+            storage: "acme.json"
+            dnsChallenge:
+              provider: "cloudflare"
+              resolvers:
+                - "1.1.1.1:53"
+                - "1.0.0.1:53"
+    dest: "{{ docker_dir }}/traefik/data/traefik.yml"
+    mode: '0644'
+    owner: "{{ username }}"
+    group: "{{ username }}"
+
+- name: Deploy traefik with docker container
+  community.docker.docker_container:
+    name: traefik
+    image: traefik:latest
+    restart_policy: unless-stopped
+    state: started
+    security_opts:
+      - no-new-privileges:true
+    networks:
+      - name: homelab
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - "{{ docker_dir }}/traefik/data/acme.json:/acme.json"
+      - "{{ docker_dir }}/traefik/data/traefik.yml:/traefik.yml:ro"
+    env:
+      CF_API_EMAIL: "{{ cloudflare_email }}"
+      CF_API_KEY: "{{ cloudflare_api_key }}"
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.traefik.entrypoints: "http"
+      traefik.http.routers.traefik.rule: "Host(`traefik.{{ domain }}`)"
+      traefik.http.middlewares.traefik-auth.basicauth.users: "{{ traefik_basic_auth_hash }}"
+      traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme: "https"
+      traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto: "https"
+      traefik.http.routers.traefik.middlewares: "traefik-https-redirect"
+      traefik.http.routers.traefik-secure.entrypoints: "https"
+      traefik.http.routers.traefik-secure.rule: "Host(`traefik.{{ domain }}`)"
+      traefik.http.routers.traefik-secure.middlewares: "traefik-auth"
+      traefik.http.routers.traefik-secure.tls: "true"
+      traefik.http.routers.traefik-secure.tls.certresolver: "cloudflare"
+      traefik.http.routers.traefik-secure.tls.domains[0].main: "{{ domain }}"
+      traefik.http.routers.traefik-secure.tls.domains[0].sans: "*.{{ domain }}"
+      traefik.http.routers.traefik-secure.service: "api@internal"

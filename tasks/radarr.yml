@@ -16,3 +16,16 @@
       - "{{ data_dir }}:/data"
     networks:
       - name: homelab
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.radarr.entrypoints: "http"
+      traefik.http.routers.radarr.rule: "Host(`radarr.{{ domain }}`)"
+      traefik.http.middlewares.radarr-https-redirect.redirectscheme.scheme: "https"
+      traefik.http.routers.radarr.middlewares: "radarr-https-redirect"
+      traefik.http.routers.radarr-secure.entrypoints: "https"
+      traefik.http.routers.radarr-secure.rule: "Host(`radarr.{{ domain }}`)"
+      traefik.http.routers.radarr-secure.tls: "true"
+      traefik.http.routers.radarr-secure.service: "radarr"
+      traefik.http.routers.radarr-secure.middlewares: "authelia@docker"
+      traefik.http.services.radarr.loadbalancer.server.port: "7878"
+      traefik.docker.network: "homelab"

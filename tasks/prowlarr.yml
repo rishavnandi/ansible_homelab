@@ -14,3 +14,16 @@
       - "{{ docker_dir }}/prowlarr/config:/config"
     networks:
       - name: homelab
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.prowlarr.entrypoints: "http"
+      traefik.http.routers.prowlarr.rule: "Host(`prowlarr.{{ domain }}`)"
+      traefik.http.middlewares.prowlarr-https-redirect.redirectscheme.scheme: "https"
+      traefik.http.routers.prowlarr.middlewares: "prowlarr-https-redirect"
+      traefik.http.routers.prowlarr-secure.entrypoints: "https"
+      traefik.http.routers.prowlarr-secure.rule: "Host(`prowlarr.{{ domain }}`)"
+      traefik.http.routers.prowlarr-secure.tls: "true"
+      traefik.http.routers.prowlarr-secure.service: "prowlarr"
+      traefik.http.routers.prowlarr-secure.middlewares: "authelia@docker"
+      traefik.http.services.prowlarr.loadbalancer.server.port: "9696"
+      traefik.docker.network: "homelab"

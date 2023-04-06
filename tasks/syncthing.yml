@@ -7,7 +7,7 @@
     state: started
     restart_policy: unless-stopped
     ports:
-      - "22000:22000/tcp"
+      - "22000:22000"
       - "22000:22000/udp"
       - "21027:21027/udp"
     volumes:
@@ -19,3 +19,16 @@
       PUID: "{{ puid }}"
       PGID: "{{ pgid }}"
       TZ: "{{ timezone }}"
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.sync.entrypoints: "http"
+      traefik.http.routers.sync.rule: "Host(`sync.{{ domain }}`)"
+      traefik.http.middlewares.sync-https-redirect.redirectscheme.scheme: "https"
+      traefik.http.routers.sync.middlewares: "sync-https-redirect"
+      traefik.http.routers.sync-secure.entrypoints: "https"
+      traefik.http.routers.sync-secure.rule: "Host(`sync.{{ domain }}`)"
+      traefik.http.routers.sync-secure.tls: "true"
+      traefik.http.routers.sync-secure.service: "sync"
+      traefik.http.routers.sync-secure.middlewares: "authelia@docker"
+      traefik.http.services.sync.loadbalancer.server.port: "8384"
+      traefik.docker.network: "homelab"
