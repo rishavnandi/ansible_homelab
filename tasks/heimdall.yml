@@ -25,5 +25,5 @@
       traefik.http.routers.heimdall-secure.tls: "true"
       traefik.http.routers.heimdall-secure.service: "heimdall"
       traefik.http.routers.heimdall-secure.middlewares: "authelia@docker"
-      traefik.http.services.heimdall.loadbalancer.server.port: "443"
+      traefik.http.services.heimdall.loadbalancer.server.port: "80"
       traefik.docker.network: "homelab"
