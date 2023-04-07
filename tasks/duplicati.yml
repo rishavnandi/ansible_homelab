@@ -9,7 +9,7 @@
     volumes:
       - "{{ docker_dir }}/duplicati/config:/config"
       - "{{ docker_dir }}/duplicati/backups:/backups"
-      - "{{ docker_dir }}/:/source"
+      - "/:/source"
     networks:
       - name: homelab
     env:

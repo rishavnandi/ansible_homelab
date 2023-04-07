@@ -16,14 +16,15 @@
         - authelia
         - traefik
         - code_server
+        - dashdot
         - duplicati
         - filebrowser
         - guacamole
         - heimdall
+        - homarr
         - jellyfin
         - jellyseerr
         - monitoring
-        # - nginx
         - portainer
         - prowlarr
         - qbittorrent

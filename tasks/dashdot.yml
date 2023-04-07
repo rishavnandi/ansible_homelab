@@ -1,0 +1,28 @@
+---
+- name: Create dashdot container
+  community.docker.docker_container:
+    name: dashdot
+    image: mauricenino/dashdot:latest
+    restart_policy: unless-stopped
+    state: started
+    pull: true
+    privileged: true
+    networks:
+      - name: homelab
+    volumes:
+      - "/:/mnt/host:ro"
+    env:
+      DASHDOT_ACCEPT_OOKLA_EULA: "true"
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.dash.entrypoints: "http"
+      traefik.http.routers.dash.rule: "Host(`dash.{{ domain }}`)"
+      traefik.http.middlewares.dash-https-redirect.redirectscheme.scheme: "https"
+      traefik.http.routers.dash.middlewares: "dash-https-redirect"
+      traefik.http.routers.dash-secure.entrypoints: "https"
+      traefik.http.routers.dash-secure.rule: "Host(`dash.{{ domain }}`)"
+      traefik.http.routers.dash-secure.tls: "true"
+      traefik.http.routers.dash-secure.service: "dash"
+      traefik.http.routers.dash-secure.middlewares: "authelia@docker"
+      traefik.http.services.dash.loadbalancer.server.port: "3001"
+      traefik.docker.network: "homelab"

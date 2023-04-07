@@ -1,0 +1,27 @@
+---
+- name: Create homarr container
+  community.docker.docker_container:
+    name: homarr
+    image: ghcr.io/ajnart/homarr:latest
+    state: started
+    restart_policy: unless-stopped
+    pull: true
+    networks:
+      - name: homelab
+    volumes:
+      - "{{ docker_dir }}/homarr/configs:/app/data/configs"
+      - "{{ docker_dir }}/homarr/icons:/app/public/icons"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.homarr.entrypoints: "http"
+      traefik.http.routers.homarr.rule: "Host(`homarr.{{ domain }}`)"
+      traefik.http.middlewares.homarr-https-redirect.redirectscheme.scheme: "https"
+      traefik.http.routers.homarr.middlewares: "homarr-https-redirect"
+      traefik.http.routers.homarr-secure.entrypoints: "https"
+      traefik.http.routers.homarr-secure.rule: "Host(`homarr.{{ domain }}`)"
+      traefik.http.routers.homarr-secure.tls: "true"
+      traefik.http.routers.homarr-secure.service: "homarr"
+      traefik.http.routers.homarr-secure.middlewares: "authelia@docker"
+      traefik.http.services.homarr.loadbalancer.server.port: "7575"
+      traefik.docker.network: "homelab"

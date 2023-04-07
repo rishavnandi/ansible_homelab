@@ -41,6 +41,8 @@
             policy: bypass
           - domain: "code.{{ domain }}"
             policy: two_factor
+          - domain: "dash.{{ domain }}"
+            policy: bypass
           - domain: "duplicati.{{ domain }}"
             policy: two_factor
           - domain: "files.{{ domain }}"
@@ -48,6 +50,8 @@
           - domain: "guac.{{ domain }}"
             policy: two_factor
           - domain: "heimdall.{{ domain }}"
+            policy: two_factor
+          - domain: "homarr.{{ domain }}"
             policy: two_factor
           - domain: "jellyfin.{{ domain }}"
             policy: two_factor
@@ -109,6 +113,7 @@
     mode: '0644'
     owner: "{{ username }}"
     group: "{{ username }}"
+  changed_when: false
 
 - name: Create authelia users database file
   ansible.builtin.copy:
@@ -127,6 +132,7 @@
     mode: '0644'
     owner: "{{ username }}"
     group: "{{ username }}"
+  changed_when: false
 
 - name: Create authelia container
   community.docker.docker_container:

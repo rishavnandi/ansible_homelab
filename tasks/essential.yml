@@ -86,10 +86,12 @@
   loop:
     - "{{ docker_dir }}/authelia"
     - "{{ docker_dir }}/code_server"
+    - "{{ docker_dir }}/dashdot"
     - "{{ docker_dir }}/duplicati"
     - "{{ docker_dir }}/filebrowser"
     - "{{ docker_dir }}/guacamole"
     - "{{ docker_dir }}/heimdall"
+    - "{{ docker_dir }}/homarr"
     - "{{ docker_dir }}/jellyfin"
     - "{{ docker_dir }}/jellyseerr"
     - "{{ docker_dir }}/monitoring"
