@@ -1,0 +1,30 @@
+---
+- name: Create nextcloud container
+  community.docker.docker_container:
+    name: nextcloud
+    image: lscr.io/linuxserver/nextcloud:latest
+    restart_policy: unless-stopped
+    state: started
+    networks:
+      - name: homelab
+    pull: true
+    env:
+      PUID: "{{ puid }}"
+      PGID: "{{ pgid }}"
+      TZ: "{{ timezone }}"
+    volumes:
+      - "{{ data_dir }}/nextcloud/config:/config"
+      - "{{ data_dir }}/nextcloud/data:/data"
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.nextcloud.entrypoints: "http"
+      traefik.http.routers.nextcloud.rule: "Host(`nextcloud.{{ domain }}`)"
+      traefik.http.middlewares.nextcloud-https-redirect.redirectscheme.scheme: "https"
+      traefik.http.routers.nextcloud.middlewares: "nextcloud-https-redirect"
+      traefik.http.routers.nextcloud-secure.entrypoints: "https"
+      traefik.http.routers.nextcloud-secure.rule: "Host(`nextcloud.{{ domain }}`)"
+      traefik.http.routers.nextcloud-secure.tls: "true"
+      traefik.http.routers.nextcloud-secure.service: "nextcloud"
+      traefik.http.routers.nextcloud-secure.middlewares: "authelia@docker"
+      traefik.http.services.nextcloud.loadbalancer.server.port: "80"
+      traefik.docker.network: "homelab"

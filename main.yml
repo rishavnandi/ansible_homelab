@@ -25,6 +25,7 @@
         - jellyfin
         - jellyseerr
         - monitoring
+        - nextcloud
         - portainer
         - prowlarr
         - qbittorrent

@@ -95,7 +95,7 @@
     - "{{ docker_dir }}/jellyfin"
     - "{{ docker_dir }}/jellyseerr"
     - "{{ docker_dir }}/monitoring"
-    - "{{ docker_dir }}/nginx"
+    - "{{ docker_dir }}/nextcloud"
     - "{{ docker_dir }}/portainer"
     - "{{ docker_dir }}/prowlarr"
     - "{{ docker_dir }}/qbittorrent"

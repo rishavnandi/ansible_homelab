@@ -59,6 +59,8 @@
             policy: two_factor
           - domain: "grafana.{{ domain }}"
             policy: two_factor
+          - domain: "nextcloud.{{ domain }}"
+            policy: bypass
           - domain: "portainer.{{ domain }}"
             policy: two_factor
           - domain: "prowlarr.{{ domain }}"
