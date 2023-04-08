@@ -13,8 +13,8 @@
       PGID: "{{ pgid }}"
       TZ: "{{ timezone }}"
     volumes:
-      - "{{ data_dir }}/nextcloud/config:/config"
-      - "{{ data_dir }}/nextcloud/data:/data"
+      - "{{ docker_dir }}/nextcloud/config:/config"
+      - "{{ docker_dir }}/nextcloud/data:/data"
     labels:
       traefik.enable: "true"
       traefik.http.routers.nextcloud.entrypoints: "http"
