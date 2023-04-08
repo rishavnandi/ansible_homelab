@@ -48,8 +48,7 @@
     - name: Check if traefik is working properly with authelia middleware
       ansible.builtin.uri:
         url: "https://wg.{{ domain }}"
-        status_code:
-          - 200
+      ignore_errors: true
       register: traefik_authelia_check
 
     - name: Restart traefik container to ensure it can find authelia middleware
