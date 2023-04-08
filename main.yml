@@ -44,3 +44,17 @@
     - name: Reboot the server
       ansible.builtin.reboot:
         msg: "Rebooting server to finish setup"
+
+    - name: Check if traefik is working properly with authelia middleware
+      ansible.builtin.uri:
+        url: "https://wg.{{ domain }}"
+        status_code:
+          - 200
+      register: traefik_authelia_check
+
+    - name: Restart traefik container to ensure it can find authelia middleware
+      community.docker.docker_container:
+        name: traefik
+        state: started
+        restart: true
+      when: traefik_authelia_check.status != 200
