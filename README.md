@@ -8,7 +8,7 @@ The playbook will update the system, install Docker, and then deploy the Docker 
 I have included a bootstrap script that clones the repo, asks the user for the username and IP address of the server, and then runs the playbook. You can run the script like this:
 
 ```bash
-wget https://raw.githubusercontent.com/rishavnandi/ansible_homelab/master/bootstrap.py -o bootstrap.sh && python3 bootstrap.py
+wget https://raw.githubusercontent.com/rishavnandi/ansible_homelab/master/bootstrap.py -o bootstrap.py && python3 bootstrap.py
 ```
 
 ## Using Treafik as a reverse proxy
