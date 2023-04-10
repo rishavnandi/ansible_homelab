@@ -100,6 +100,7 @@
     - "{{ docker_dir }}/prowlarr"
     - "{{ docker_dir }}/qbittorrent"
     - "{{ docker_dir }}/radarr"
+    - "{{ docker_dir }}/requestrr"
     - "{{ docker_dir }}/sonarr"
     - "{{ docker_dir }}/syncthing"
     - "{{ docker_dir }}/traefik"

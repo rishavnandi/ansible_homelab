@@ -59,7 +59,7 @@
     state: started
     pid_mode: host
     restart_policy: unless-stopped
-    command: '--path.rootfs=/host'
+    command: "--path.rootfs=/host"
     volumes:
       - /:/host:ro,rslave
     networks:
@@ -72,6 +72,7 @@
     pull: true
     state: started
     restart_policy: unless-stopped
+    privileged: true
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:ro

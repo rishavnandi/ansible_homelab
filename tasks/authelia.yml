@@ -3,7 +3,7 @@
   ansible.builtin.file:
     path: "{{ docker_dir }}/authelia/config"
     state: directory
-    mode: '0755'
+    mode: "0755"
     access_time: preserve
     modification_time: preserve
 
@@ -69,6 +69,8 @@
             policy: two_factor
           - domain: "radarr.{{ domain }}"
             policy: two_factor
+          - domain: "requestrr.{{ domain }}"
+            policy: two_factor
           - domain: "sonarr.{{ domain }}"
             policy: two_factor
           - domain: "sync.{{ domain }}"
@@ -112,7 +114,7 @@
           port: 587
       ...
     dest: "{{ docker_dir }}/authelia/config/configuration.yml"
-    mode: '0644'
+    mode: "0644"
     owner: "{{ username }}"
     group: "{{ username }}"
   changed_when: false
@@ -131,7 +133,7 @@
             - dev
       ...
     dest: "{{ docker_dir }}/authelia/config/users_database.yml"
-    mode: '0644'
+    mode: "0644"
     owner: "{{ username }}"
     group: "{{ username }}"
   changed_when: false

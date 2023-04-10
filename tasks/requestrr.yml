@@ -1,0 +1,25 @@
+---
+- name: Create requestrr container
+  community.docker.docker_container:
+    name: requestrr
+    image: darkalfx/requestrr
+    pull: true
+    state: started
+    restart_policy: unless-stopped
+    networks:
+      - name: homelab
+    volumes:
+      - "{{ docker_dir }}/requestrr:/root/config"
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.requestrr.entrypoints: "http"
+      traefik.http.routers.requestrr.rule: "Host(`requestrr.{{ domain }}`)"
+      traefik.http.middlewares.requestrr-https-redirect.redirectscheme.scheme: "https"
+      traefik.http.routers.requestrr.middlewares: "requestrr-https-redirect"
+      traefik.http.routers.requestrr-secure.entrypoints: "https"
+      traefik.http.routers.requestrr-secure.rule: "Host(`requestrr.{{ domain }}`)"
+      traefik.http.routers.requestrr-secure.tls: "true"
+      traefik.http.routers.requestrr-secure.service: "requestrr"
+      traefik.http.routers.requestrr-secure.middlewares: "authelia@docker"
+      traefik.http.services.requestrr.loadbalancer.server.port: "4545"
+      traefik.docker.network: "homelab"
