@@ -95,6 +95,7 @@
     - "{{ docker_dir }}/jellyfin"
     - "{{ docker_dir }}/jellyseerr"
     - "{{ docker_dir }}/monitoring"
+    - "{{ docker_dir }}/n8n"
     - "{{ docker_dir }}/nextcloud"
     - "{{ docker_dir }}/portainer"
     - "{{ docker_dir }}/prowlarr"

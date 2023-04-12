@@ -65,10 +65,17 @@
     networks:
       - name: homelab
 
+- name: Get cadvisor latest release
+  community.general.github_release:
+    user: google
+    repo: cadvisor
+    action: latest_release
+  register: cadvisor_latest_release
+
 - name: Create cadvisor container
   community.docker.docker_container:
     name: cadvisor
-    image: gcr.io/cadvisor/cadvisor
+    image: gcr.io/cadvisor/cadvisor:{{ cadvisor_latest_release.tag }}
     pull: true
     state: started
     restart_policy: unless-stopped

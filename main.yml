@@ -25,6 +25,7 @@
         - jellyfin
         - jellyseerr
         - monitoring
+        - n8n
         - nextcloud
         - portainer
         - prowlarr
@@ -51,6 +52,11 @@
         url: "https://wg.{{ domain }}"
       ignore_errors: true
       register: traefik_authelia_check
+
+    - name: Wait to ensure authelia is up and running
+      ansible.builtin.wait_for:
+        timeout: 10
+      when: traefik_authelia_check.status != 200
 
     - name: Restart traefik container to ensure it can find authelia middleware
       community.docker.docker_container:
