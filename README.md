@@ -86,3 +86,7 @@ You can find more info about using Terraform with AWS here: [https://learn.hashi
 - [linuxserver.io](https://linuxserver.io/) for the Docker containers
 - [Ansible docs](https://docs.ansible.com/ansible/latest/) for the Ansible documentation
 - [Wolfgang's infra repo](https://github.com/notthebee/infra) for the Docker install fix for Ubuntu 22.04
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=rishavnandi/ansible_homelab&type=Date)](https://star-history.com/#rishavnandi/ansible_homelab&Date)
