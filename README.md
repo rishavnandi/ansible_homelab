@@ -89,4 +89,4 @@ You can find more info about using Terraform with AWS here: [https://learn.hashi
 
 ## Star History
 
-![star-history-2023817](https://github.com/rishavnandi/ansible_homelab/assets/101431112/6d4ba90e-faeb-4c30-826f-ddaeb9ed030c)
+![star-history-2023916](https://github.com/rishavnandi/ansible_homelab/assets/101431112/2ffbe2d4-239f-4009-9119-1709f89d60b5)
