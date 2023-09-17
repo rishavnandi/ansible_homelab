@@ -11,7 +11,7 @@ I have included a bootstrap script that clones the repo, asks the user for the u
 wget https://raw.githubusercontent.com/rishavnandi/ansible_homelab/master/bootstrap.py && python3 bootstrap.py
 ```
 
-## Using Treafik as a reverse proxy
+## Using Traefik as a reverse proxy
 
 I have finally switched from using nginx proxy manager to using Traefik as a reverse proxy. I have included a playbook to install Traefik and configure it to work with the apps.
 
