@@ -77,8 +77,6 @@
             policy: two_factor
           - domain: "sync.{{ domain }}"
             policy: two_factor
-          - domain: "traefik.{{ domain }}"
-            policy: two_factor
           - domain: "unmanic.{{ domain }}"
             policy: two_factor
           - domain: "uptime.{{ domain }}"
